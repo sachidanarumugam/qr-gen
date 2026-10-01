@@ -1,9 +1,11 @@
 import { useId } from 'react'
 import './Field.css'
 
-export default function TextField({ label, value, onChange, multiline = false, hint, ...inputProps }) {
+export default function TextField({ label, value, onChange, onBlur, error = '', multiline = false, hint, ...inputProps }) {
   const id = useId()
   const hintId = `${id}-hint`
+  const errorId = `${id}-error`
+  const describedBy = [hint ? hintId : null, errorId].filter(Boolean).join(' ')
   const Control = multiline ? 'textarea' : 'input'
 
   return (
@@ -14,7 +16,9 @@ export default function TextField({ label, value, onChange, multiline = false, h
         className="control"
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        aria-describedby={hint ? hintId : undefined}
+        onBlur={onBlur}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy}
         {...inputProps}
       />
       {hint && (
@@ -22,6 +26,10 @@ export default function TextField({ label, value, onChange, multiline = false, h
           {hint}
         </p>
       )}
+      {/* Always mounted so a screen reader hears the text when it appears. */}
+      <p className="field-error" id={errorId} aria-live="polite">
+        {error}
+      </p>
     </div>
   )
 }

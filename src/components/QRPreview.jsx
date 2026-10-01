@@ -4,14 +4,22 @@ import './QRPreview.css'
 
 export default function QRPreview({ payload, typeLabel, settings, canvasRef, onFailure }) {
   if (!payload) {
-    return <div className="qr-empty">Enter valid content to see your QR code</div>
+    return (
+      <div className="qr-empty" role="status">
+        Enter valid content to see your QR code
+      </div>
+    )
   }
 
   return (
     <QRErrorBoundary
       resetKey={`${payload}|${settings.level}`}
       onFailure={onFailure}
-      fallback={<div className="qr-empty">This content is too long for a QR code</div>}
+      fallback={
+        <div className="qr-empty" role="status">
+          This content is too long for a QR code
+        </div>
+      }
     >
       <div className="qr-frame">
         {/* Canvas (not SVG) so the PNG export can copy its pixels. */}

@@ -45,6 +45,11 @@
     align-items: start;
   }
 
+  .layout > .section,
+  .layout > .preview {
+    min-width: 0;
+  }
+
   .layout > .section {
     grid-column: 1 / span 7;
   }

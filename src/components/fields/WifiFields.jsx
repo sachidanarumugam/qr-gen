@@ -9,13 +9,15 @@ const SECURITY_OPTIONS = [
   { value: WIFI_SECURITY.NONE, label: 'None' },
 ]
 
-export default function WifiFields({ fields, onChange }) {
+export default function WifiFields({ fields, errors, onChange, onBlur }) {
   return (
     <>
       <TextField
         label="Network name (SSID)"
         value={fields.ssid}
         onChange={(value) => onChange('ssid', value)}
+        onBlur={() => onBlur('ssid')}
+        error={errors.ssid}
         autoCapitalize="off"
         autoComplete="off"
         spellCheck={false}
@@ -32,6 +34,8 @@ export default function WifiFields({ fields, onChange }) {
           type="password"
           value={fields.password}
           onChange={(value) => onChange('password', value)}
+          onBlur={() => onBlur('password')}
+          error={errors.password}
           autoComplete="off"
         />
       )}

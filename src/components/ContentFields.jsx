@@ -12,11 +12,11 @@ const FIELD_COMPONENTS = {
   wifi: WifiFields,
 }
 
-export default function ContentFields({ type, fields, onChange }) {
+export default function ContentFields({ type, fields, errors, onChange, onBlur }) {
   const TypeFields = FIELD_COMPONENTS[type]
   return (
     <div className="stack">
-      <TypeFields fields={fields} onChange={onChange} />
+      <TypeFields fields={fields} errors={errors} onChange={onChange} onBlur={onBlur} />
     </div>
   )
 }

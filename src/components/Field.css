@@ -33,9 +33,9 @@ textarea.control {
   font-size: var(--text-sm);
 }
 
-/* The element stays in the DOM so screen readers announce text added to it. */
+/* Keep the node in the accessibility tree. An empty paragraph has no height. */
 .field-error:empty {
-  display: none;
+  margin-top: 0;
 }
 
 .field-error {

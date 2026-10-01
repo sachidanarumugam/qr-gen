@@ -1,0 +1,17 @@
+.scan-warnings {
+  margin-top: var(--space-3);
+  padding: var(--space-2) 12px;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: var(--text-sm);
+}
+
+.scan-warnings p + p {
+  margin-top: var(--space-2);
+}
+
+.scan-warnings .is-strong {
+  font-weight: 500;
+}

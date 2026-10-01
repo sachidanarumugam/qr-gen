@@ -1,6 +1,6 @@
 import TextField from '../TextField.jsx'
 
-export default function EmailFields({ fields, onChange }) {
+export default function EmailFields({ fields, errors, onChange, onBlur }) {
   return (
     <>
       <TextField
@@ -8,6 +8,8 @@ export default function EmailFields({ fields, onChange }) {
         type="email"
         value={fields.address}
         onChange={(value) => onChange('address', value)}
+        onBlur={() => onBlur('address')}
+        error={errors.address}
         autoCapitalize="off"
         autoComplete="off"
         spellCheck={false}

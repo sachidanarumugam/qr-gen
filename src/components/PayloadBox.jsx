@@ -15,7 +15,9 @@ export default function PayloadBox({ payload }) {
         rows={4}
         placeholder="Nothing to encode yet"
       />
-      <p className="payload-count mono">{payload.length} characters</p>
+      <p className="payload-count mono">
+        {payload.length} characters, {new TextEncoder().encode(payload).length} bytes
+      </p>
     </div>
   )
 }
