@@ -1,0 +1,55 @@
+.page {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-3) var(--space-5);
+}
+
+/* Decorative 12-column guides; they use the same gap and padding as .layout. */
+.grid-guides {
+  display: none;
+}
+
+.layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 900px) {
+  .page {
+    padding-inline: var(--space-4);
+  }
+
+  .grid-guides {
+    position: absolute;
+    inset: 0 var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-4);
+    pointer-events: none;
+  }
+
+  .grid-guides span {
+    border-inline: 1px dashed var(--ink);
+    opacity: 0.14;
+  }
+
+  .layout {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .layout > .section {
+    grid-column: 1 / span 7;
+  }
+
+  /* Spans every row so the preview stays beside all the control sections. */
+  .layout > .preview {
+    grid-column: 8 / span 5;
+    grid-row: 1 / span 4;
+    position: sticky;
+    top: var(--space-4);
+  }
+}
