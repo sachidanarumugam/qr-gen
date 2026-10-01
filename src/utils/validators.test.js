@@ -3,6 +3,7 @@ import {
   WIFI_SECURITY,
   isValid,
   isValidEmailAddress,
+  isValidWepKey,
   normalizePhone,
   normalizeUrl,
   validateFields,
@@ -37,6 +38,27 @@ describe('url validation', () => {
     expect(check('http://example.com/a?b=c#d')).toEqual({})
     expect(check('example.com')).toEqual({})
     expect(check('localhost:3000')).toEqual({})
+  })
+
+  it('accepts a host with a dot or localhost', () => {
+    expect(check('https://sub.example.co.uk/path')).toEqual({})
+    expect(check('http://192.168.1.1:8080')).toEqual({})
+    expect(check('http://localhost')).toEqual({})
+    expect(check('LOCALHOST:5173')).toEqual({})
+  })
+
+  it('rejects single words, which have no dot in the host', () => {
+    const message = 'URL needs a domain name such as example.com'
+    expect(check('hello').url).toBe(message)
+    expect(check('https://hello').url).toBe(message)
+    expect(check('http://intranet/page').url).toBe(message)
+  })
+
+  it('rejects hosts where a dot has nothing on one side', () => {
+    const message = 'URL needs a domain name such as example.com'
+    expect(check('hello.').url).toBe(message)
+    expect(check('.com').url).toBe(message)
+    expect(check('a..b').url).toBe(message)
   })
 
   it('requires a value', () => {
@@ -84,6 +106,19 @@ describe('isValidEmailAddress', () => {
     expect(isValidEmailAddress('a@-example.com')).toBe(false)
     expect(isValidEmailAddress('a@example..com')).toBe(false)
     expect(isValidEmailAddress(`${'a'.repeat(250)}@example.com`)).toBe(false)
+  })
+})
+
+describe('isValidWepKey', () => {
+  it('accepts 5 or 13 characters of any kind', () => {
+    expect(isValidWepKey('pass!')).toBe(true)
+    expect(isValidWepKey('thirteen-chars')).toBe(false)
+    expect(isValidWepKey('thirteen-char')).toBe(true)
+  })
+
+  it('accepts 10 or 26 hex digits only', () => {
+    expect(isValidWepKey('ABCDEF0123')).toBe(true)
+    expect(isValidWepKey('ABCDEF012G')).toBe(false)
   })
 })
 
@@ -160,13 +195,22 @@ describe('wifi validation', () => {
     expect(validateFields('wifi', wifi())).toEqual({})
   })
 
-  it('requires an SSID of at most 32 characters', () => {
+  it('requires an SSID', () => {
     expect(validateFields('wifi', wifi({ ssid: '' })).ssid).toBe('Enter the network name (SSID)')
     expect(validateFields('wifi', wifi({ ssid: '   ' })).ssid).toBe('Enter the network name (SSID)')
+  })
+
+  it('limits the SSID to 32 bytes, not 32 characters', () => {
+    const message =
+      'Network name must be 32 bytes or fewer (accented letters and emoji use 2 to 4 bytes each)'
     expect(validateFields('wifi', wifi({ ssid: 'a'.repeat(32) }))).toEqual({})
-    expect(validateFields('wifi', wifi({ ssid: 'a'.repeat(33) })).ssid).toBe(
-      'Network name must be 32 characters or fewer',
-    )
+    expect(validateFields('wifi', wifi({ ssid: 'a'.repeat(33) })).ssid).toBe(message)
+    // 16 two-byte characters are exactly 32 bytes; 17 are 34 bytes.
+    expect(validateFields('wifi', wifi({ ssid: 'é'.repeat(16) }))).toEqual({})
+    expect(validateFields('wifi', wifi({ ssid: 'é'.repeat(17) })).ssid).toBe(message)
+    // 8 emoji are 32 bytes; 9 are 36 bytes even though 9 is far below 32 characters.
+    expect(validateFields('wifi', wifi({ ssid: '😀'.repeat(8) }))).toEqual({})
+    expect(validateFields('wifi', wifi({ ssid: '😀'.repeat(9) })).ssid).toBe(message)
   })
 
   it('requires a WPA password of 8 to 63 characters', () => {
@@ -178,11 +222,19 @@ describe('wifi validation', () => {
     expect(validateFields('wifi', wifi({ password: 'a'.repeat(64) })).password).toBe(message)
   })
 
-  it('only requires a non-empty password for WEP', () => {
-    expect(validateFields('wifi', wifi({ security: WIFI_SECURITY.WEP, password: 'abc' }))).toEqual({})
-    expect(validateFields('wifi', wifi({ security: WIFI_SECURITY.WEP, password: '' })).password).toBe(
-      'Enter the Wi-Fi password',
-    )
+  it('requires a WEP password of 5 or 13 characters, or 10 or 26 hex digits', () => {
+    const message = 'WEP password must be 5 or 13 characters, or 10 or 26 hex digits'
+    const wep = (password) => validateFields('wifi', wifi({ security: WIFI_SECURITY.WEP, password }))
+    expect(wep('')).toEqual({ password: 'Enter the Wi-Fi password' })
+    expect(wep('abcde')).toEqual({})
+    expect(wep('abcdefghijklm')).toEqual({})
+    expect(wep('0123456789')).toEqual({})
+    expect(wep('0123456789abcdef0123456789')).toEqual({})
+    expect(wep('abc').password).toBe(message)
+    expect(wep('abcdef').password).toBe(message)
+    expect(wep('0123456789a').password).toBe(message)
+    expect(wep('0123456789abcdef012345678').password).toBe(message)
+    expect(wep('ghijklmnop').password).toBe(message)
   })
 
   it('ignores the password when there is no security', () => {
@@ -191,6 +243,34 @@ describe('wifi validation', () => {
 
   it('reports SSID and password errors together', () => {
     expect(Object.keys(validateFields('wifi', wifi({ ssid: '', password: '' })))).toEqual(['ssid', 'password'])
+  })
+})
+
+describe('trimming rules', () => {
+  it('treats URL, email and phone input with only spaces as empty', () => {
+    expect(validateFields('url', { url: '   ' }).url).toBe('Enter a URL')
+    expect(validateFields('email', { address: '   ', subject: '', body: '' }).address).toBe('Enter an email address')
+    expect(validateFields('phone', { phone: '   ' }).phone).toBe('Enter a phone number')
+  })
+
+  it('accepts URL, email and phone input with surrounding spaces', () => {
+    expect(validateFields('url', { url: '  example.com  ' })).toEqual({})
+    expect(validateFields('email', { address: '  me@example.com  ', subject: '', body: '' })).toEqual({})
+    expect(validateFields('phone', { phone: '  5551234567  ' })).toEqual({})
+  })
+
+  it('does not trim the password: spaces count toward its length', () => {
+    const wpa = (password) =>
+      validateFields('wifi', { ssid: 'Home', security: WIFI_SECURITY.WPA, password, hidden: false })
+    expect(wpa('1234567 ')).toEqual({})
+    expect(wpa('1234567').password).toBe('Wi-Fi password must be 8 to 63 characters')
+  })
+
+  it('does not trim the SSID: spaces count toward its byte limit', () => {
+    const ssidErrors = (ssid) =>
+      validateFields('wifi', { ssid, security: WIFI_SECURITY.NONE, password: '', hidden: false })
+    expect(ssidErrors(`${'a'.repeat(31)} `)).toEqual({})
+    expect(ssidErrors(`${'a'.repeat(32)} `).ssid).toContain('32 bytes')
   })
 })
 

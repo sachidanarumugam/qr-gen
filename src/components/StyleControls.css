@@ -1,0 +1,10 @@
+.style-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+}
+
+.level-help {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+}

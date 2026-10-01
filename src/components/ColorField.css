@@ -1,0 +1,35 @@
+.color-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.color-row .control {
+  flex: 1;
+  min-width: 0;
+}
+
+.swatch {
+  flex: none;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  padding: 0;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--paper);
+  cursor: pointer;
+  appearance: none;
+}
+
+.swatch::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.swatch::-webkit-color-swatch {
+  border: 0;
+  border-radius: 0;
+}
+
+.swatch::-moz-color-swatch {
+  border: 0;
+  border-radius: 0;
+}

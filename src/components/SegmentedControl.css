@@ -1,11 +1,11 @@
-.type-selector {
+.segmented {
   margin: 0;
   padding: 0;
   border: 0;
   min-width: 0;
 }
 
-.type-selector legend {
+.segmented legend {
   margin-bottom: var(--space-1);
   padding: 0;
   font-size: var(--text-sm);

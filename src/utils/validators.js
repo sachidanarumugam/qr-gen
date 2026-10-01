@@ -8,7 +8,8 @@ export const WIFI_SECURITY = {
   NONE: 'nopass',
 }
 
-const SSID_MAX_LENGTH = 32
+// The 802.11 limit is 32 bytes, not characters: accented letters and emoji take 2 to 4 bytes each.
+const SSID_MAX_BYTES = 32
 const WPA_PASSWORD_MIN = 8
 const WPA_PASSWORD_MAX = 63
 const PHONE_MIN_DIGITS = 7
@@ -18,6 +19,13 @@ const SCHEME = /^[a-z][a-z0-9+.-]*:/i
 // "localhost:3000" looks like a scheme followed by a number, so it has to be
 // recognised as host:port or it would be rejected as an unknown protocol.
 const HOST_WITH_PORT = /^[a-z0-9.-]+:\d+(?:[/?#]|$)/i
+
+// WEP keys are 5 or 13 ASCII characters, or 10 or 26 hex digits (64-bit and 128-bit keys).
+const WEP_ASCII_LENGTHS = [5, 13]
+const WEP_HEX_KEY = /^(?:[0-9a-f]{10}|[0-9a-f]{26})$/i
+
+// At least one dot with text on both sides, so "hello." and ".com" are rejected.
+const DOTTED_HOST = /[^.]\.[^.]/
 
 const EMAIL_LOCAL = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+$/
 const EMAIL_DOMAIN = /^[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)+$/
@@ -37,6 +45,10 @@ export function normalizePhone(input) {
   const trimmed = input.trim()
   const digits = trimmed.replace(/\D/g, '')
   return trimmed.startsWith('+') ? `+${digits}` : digits
+}
+
+export function isValidWepKey(password) {
+  return WEP_ASCII_LENGTHS.includes(password.length) || WEP_HEX_KEY.test(password)
 }
 
 export function isValidEmailAddress(address) {
@@ -62,6 +74,10 @@ function validateUrl({ url }) {
   }
   if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
     return { url: 'URL must start with http:// or https://' }
+  }
+  // new URL() accepts single words like "hello", which are almost always typos.
+  if (parsed.hostname !== 'localhost' && !DOTTED_HOST.test(parsed.hostname)) {
+    return { url: 'URL needs a domain name such as example.com' }
   }
   return {}
 }
@@ -95,8 +111,8 @@ function validateWifi({ ssid, security, password }) {
 
   if (!ssid.trim()) {
     errors.ssid = 'Enter the network name (SSID)'
-  } else if (ssid.length > SSID_MAX_LENGTH) {
-    errors.ssid = `Network name must be ${SSID_MAX_LENGTH} characters or fewer`
+  } else if (new TextEncoder().encode(ssid).length > SSID_MAX_BYTES) {
+    errors.ssid = `Network name must be ${SSID_MAX_BYTES} bytes or fewer (accented letters and emoji use 2 to 4 bytes each)`
   }
 
   if (security === WIFI_SECURITY.NONE) return errors
@@ -108,6 +124,8 @@ function validateWifi({ ssid, security, password }) {
     (password.length < WPA_PASSWORD_MIN || password.length > WPA_PASSWORD_MAX)
   ) {
     errors.password = `Wi-Fi password must be ${WPA_PASSWORD_MIN} to ${WPA_PASSWORD_MAX} characters`
+  } else if (security === WIFI_SECURITY.WEP && !isValidWepKey(password)) {
+    errors.password = 'WEP password must be 5 or 13 characters, or 10 or 26 hex digits'
   }
   return errors
 }

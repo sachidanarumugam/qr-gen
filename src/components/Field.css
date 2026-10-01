@@ -1,9 +1,10 @@
 .field {
-  display: grid;
-  gap: var(--space-1);
+  display: flex;
+  flex-direction: column;
 }
 
-.field label {
+.field > label {
+  margin-bottom: var(--space-1);
   font-size: var(--text-sm);
   font-weight: 500;
 }
@@ -26,8 +27,20 @@ textarea.control {
   line-height: 1.4;
 }
 
-.field-hint {
+.field-hint,
+.field-error {
+  margin-top: var(--space-1);
   font-size: var(--text-sm);
+}
+
+/* The element stays in the DOM so screen readers announce text added to it. */
+.field-error:empty {
+  display: none;
+}
+
+.field-error {
+  color: var(--error);
+  font-weight: 500;
 }
 
 .field-hint code {

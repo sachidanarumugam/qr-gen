@@ -1,0 +1,65 @@
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.range-number {
+  flex: none;
+  width: 104px;
+}
+
+.range {
+  flex: 1;
+  min-width: 0;
+  height: var(--tap-target);
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Square thumb on a bordered track. The input stays 44px tall so the touch target is large. */
+.range::-webkit-slider-runnable-track {
+  height: 10px;
+  border: var(--border);
+  border-radius: 0;
+  background: var(--paper);
+}
+
+.range::-moz-range-track {
+  height: 6px;
+  border: var(--border);
+  border-radius: 0;
+  background: var(--paper);
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 28px;
+  margin-top: -11px;
+  border: var(--border);
+  border-radius: 0;
+  background: var(--ink);
+  transition: background-color var(--transition);
+}
+
+.range::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 24px;
+  height: 28px;
+  border: var(--border);
+  border-radius: 0;
+  background: var(--ink);
+  transition: background-color var(--transition);
+}
+
+.range:active::-webkit-slider-thumb {
+  background: var(--accent);
+}
+
+.range:active::-moz-range-thumb {
+  background: var(--accent);
+}

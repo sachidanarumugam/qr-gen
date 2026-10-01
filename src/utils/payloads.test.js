@@ -15,11 +15,20 @@ describe('url payload', () => {
     expect(buildPayload('url', { url: 'ftp://example.com' })).toBe('')
     expect(buildPayload('url', { url: '' })).toBe('')
   })
+
+  it('returns an empty string for a single word, but keeps localhost', () => {
+    expect(buildPayload('url', { url: 'hello' })).toBe('')
+    expect(buildPayload('url', { url: 'localhost:3000' })).toBe('https://localhost:3000')
+  })
 })
 
 describe('text payload', () => {
   it('encodes the text unchanged', () => {
     expect(buildPayload('text', { text: 'Hello,\nworld' })).toBe('Hello,\nworld')
+  })
+
+  it('keeps leading and trailing spaces and newlines exactly as typed', () => {
+    expect(buildPayload('text', { text: '  padded text \n' })).toBe('  padded text \n')
   })
 
   it('returns an empty string for blank text', () => {
@@ -48,6 +57,12 @@ describe('email payload', () => {
     expect(buildPayload('email', email({ body: 'Only body' }))).toBe('mailto:me@example.com?body=Only%20body')
   })
 
+  it('trims the address, subject and body', () => {
+    expect(buildPayload('email', email({ address: '  me@example.com ', subject: ' Hi ', body: '\nBye\n' }))).toBe(
+      'mailto:me@example.com?subject=Hi&body=Bye',
+    )
+  })
+
   it('returns an empty string for an invalid address', () => {
     expect(buildPayload('email', email({ address: 'nope' }))).toBe('')
   })
@@ -60,6 +75,10 @@ describe('phone payload', () => {
 
   it('keeps the + when it was entered', () => {
     expect(buildPayload('phone', { phone: '+1 555 123 4567' })).toBe('tel:+15551234567')
+  })
+
+  it('trims the phone number', () => {
+    expect(buildPayload('phone', { phone: '   +1 555 123 4567  ' })).toBe('tel:+15551234567')
   })
 
   it('returns an empty string for an invalid number', () => {
@@ -97,6 +116,21 @@ describe('wifi payload', () => {
   it('builds a WEP payload', () => {
     expect(buildPayload('wifi', wifi({ security: WIFI_SECURITY.WEP, password: 'abcde' }))).toBe(
       'WIFI:T:WEP;S:Home;P:abcde;;',
+    )
+  })
+
+  it('returns an empty string for a WEP password with an invalid length', () => {
+    expect(buildPayload('wifi', wifi({ security: WIFI_SECURITY.WEP, password: 'abc' }))).toBe('')
+  })
+
+  it('returns an empty string for an SSID over 32 bytes', () => {
+    expect(buildPayload('wifi', wifi({ ssid: '😀'.repeat(9) }))).toBe('')
+    expect(buildPayload('wifi', wifi({ ssid: '😀'.repeat(8) }))).toBe(`WIFI:T:WPA;S:${'😀'.repeat(8)};P:password123;;`)
+  })
+
+  it('keeps spaces in the SSID and password exactly as typed', () => {
+    expect(buildPayload('wifi', wifi({ ssid: ' My Wi-Fi ', password: ' pass word ' }))).toBe(
+      'WIFI:T:WPA;S: My Wi-Fi ;P: pass word ;;',
     )
   })
 
