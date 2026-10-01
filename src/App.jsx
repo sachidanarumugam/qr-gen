@@ -63,7 +63,7 @@ export default function App() {
             <ContentFields type={type} fields={fields} onChange={updateField} />
           </div>
         </Section>
-        <PreviewCard payload={payload} typeLabel={typeLabel} settings={settings} />
+        <PreviewCard payload={payload} type={type} typeLabel={typeLabel} settings={settings} />
         <Section id="style" number="02" title="Style">
           <StyleControls settings={settings} onChange={updateSetting} />
         </Section>

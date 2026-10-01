@@ -15,6 +15,14 @@ export default class QRErrorBoundary extends Component {
     return null
   }
 
+  componentDidCatch() {
+    this.props.onFailure?.(true)
+  }
+
+  componentDidUpdate(_prevProps, prevState) {
+    if (prevState.failed && !this.state.failed) this.props.onFailure?.(false)
+  }
+
   render() {
     return this.state.failed ? this.props.fallback : this.props.children
   }

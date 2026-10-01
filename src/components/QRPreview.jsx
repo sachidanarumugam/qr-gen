@@ -2,7 +2,7 @@ import { QRCodeCanvas } from 'qrcode.react'
 import QRErrorBoundary from './QRErrorBoundary.jsx'
 import './QRPreview.css'
 
-export default function QRPreview({ payload, typeLabel, settings }) {
+export default function QRPreview({ payload, typeLabel, settings, canvasRef, onFailure }) {
   if (!payload) {
     return <div className="qr-empty">Enter valid content to see your QR code</div>
   }
@@ -10,11 +10,13 @@ export default function QRPreview({ payload, typeLabel, settings }) {
   return (
     <QRErrorBoundary
       resetKey={`${payload}|${settings.level}`}
+      onFailure={onFailure}
       fallback={<div className="qr-empty">This content is too long for a QR code</div>}
     >
       <div className="qr-frame">
-        {/* Canvas (not SVG) because the PNG export in a later step reads from it. */}
+        {/* Canvas (not SVG) so the PNG export can copy its pixels. */}
         <QRCodeCanvas
+          ref={canvasRef}
           value={payload}
           size={settings.size}
           level={settings.level}
