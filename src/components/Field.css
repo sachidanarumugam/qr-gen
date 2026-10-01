@@ -1,0 +1,91 @@
+.field {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.field label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+/* 16px text keeps iOS Safari from zooming the page when a field is focused. */
+.control {
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: var(--space-2) 12px;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--text-md);
+}
+
+textarea.control {
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.field-hint {
+  font-size: var(--text-sm);
+}
+
+.field-hint code {
+  overflow-wrap: anywhere;
+}
+
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap select {
+  appearance: none;
+  padding-right: 44px;
+  cursor: pointer;
+}
+
+.select-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--tap-target);
+  cursor: pointer;
+}
+
+.check input {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--paper);
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.check input:checked {
+  background: var(--accent);
+}
+
+.check input:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 7px;
+  width: 6px;
+  height: 12px;
+  border: solid var(--paper);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}

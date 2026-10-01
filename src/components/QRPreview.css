@@ -1,0 +1,22 @@
+.qr-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  padding: var(--space-3);
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.qr-frame {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  border: var(--border);
+  border-radius: var(--radius);
+}
+
+.qr-frame canvas {
+  display: block;
+}

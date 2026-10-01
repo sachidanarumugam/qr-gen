@@ -64,6 +64,11 @@ h1 {
   line-height: 1.1;
 }
 
+.stack {
+  display: grid;
+  gap: var(--space-3);
+}
+
 /* Mono is used for every number and payload so digits line up. */
 code,
 .mono {

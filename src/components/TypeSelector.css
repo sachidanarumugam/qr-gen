@@ -1,0 +1,85 @@
+.type-selector {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.type-selector legend {
+  margin-bottom: var(--space-1);
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.segment {
+  position: relative;
+}
+
+/* The native radio stays in the DOM (keyboard and screen readers) but covers the label. */
+.segment input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.segment-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  padding: 0 var(--space-3);
+  border: var(--border);
+  border-radius: var(--radius);
+  font-weight: 500;
+  overflow: hidden;
+}
+
+/* Hover tint is the ink color at low opacity so the palette stays fixed. */
+.segment-label::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.segment:hover .segment-label::before {
+  opacity: 0.08;
+}
+
+/* Active state is also marked by the filled background, not only the accent bar. */
+.segment input:checked + .segment-label {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.segment input:checked + .segment-label::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 4px;
+  background: var(--accent);
+}
+
+.segment input:checked + .segment-label::before {
+  opacity: 0;
+}
+
+.segment input:focus-visible + .segment-label {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}

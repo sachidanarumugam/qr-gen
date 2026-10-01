@@ -15,14 +15,3 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-
-.preview-empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 240px;
-  padding: var(--space-3);
-  border: 2px dashed var(--ink);
-  border-radius: var(--radius);
-  text-align: center;
-}
