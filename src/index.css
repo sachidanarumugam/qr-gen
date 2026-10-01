@@ -7,9 +7,10 @@
   --warn-bg: #fef3c7;
   --error: #b3261e;
 
-  --font-heading: 'Bricolage Grotesque', Georgia, serif;
-  --font-body: 'IBM Plex Sans', Arial, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  /* Fallbacks are named fonts, not system-ui, so layout stays close if a font file fails. */
+  --font-heading: 'Bricolage Grotesque', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
 
   --text-sm: 0.875rem; /* 14px */
   --text-md: 1rem; /* 16px */
