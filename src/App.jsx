@@ -4,9 +4,11 @@ import Section from './components/Section.jsx'
 import SegmentedControl from './components/SegmentedControl.jsx'
 import ContentFields from './components/ContentFields.jsx'
 import StyleControls from './components/StyleControls.jsx'
+import PresetPicker from './components/PresetPicker.jsx'
 import PreviewCard from './components/PreviewCard.jsx'
 import { EMPTY_FIELDS, QR_TYPES, buildPayload } from './utils/payloads.js'
 import { DEFAULT_SETTINGS } from './utils/settings.js'
+import { applyPreset, findPresetId } from './utils/presets.js'
 import './App.css'
 
 const GUIDE_COLUMNS = Array.from({ length: 12 }, (_, i) => i)
@@ -20,6 +22,8 @@ export default function App() {
   // Single source of truth for size, colors, level and margin. The real size is kept here
   // even when the preview is scaled down with CSS, because PNG export needs it.
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
+  // null means the user has edited away from every preset, so the label reads "Custom".
+  const [presetId, setPresetId] = useState(() => findPresetId(DEFAULT_SETTINGS))
 
   const fields = fieldsByType[type]
   const payload = buildPayload(type, fields)
@@ -34,6 +38,13 @@ export default function App() {
 
   function updateSetting(name, value) {
     setSettings((current) => ({ ...current, [name]: value }))
+    // Size is not part of a preset, so moving the slider keeps the preset name.
+    if (name !== 'size') setPresetId(null)
+  }
+
+  function selectPreset(id) {
+    setSettings((current) => applyPreset(current, id) ?? current)
+    setPresetId(id)
   }
 
   return (
@@ -56,7 +67,9 @@ export default function App() {
         <Section id="style" number="02" title="Style">
           <StyleControls settings={settings} onChange={updateSetting} />
         </Section>
-        <Section id="presets" number="03" title="Presets" />
+        <Section id="presets" number="03" title="Presets">
+          <PresetPicker activeId={presetId} onSelect={selectPreset} />
+        </Section>
         <Section id="recent" number="04" title="Recent" />
       </main>
     </div>
