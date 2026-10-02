@@ -9,6 +9,7 @@ import SettingsDrawer from './components/SettingsDrawer.jsx'
 import CreatingOverlay from './components/CreatingOverlay.jsx'
 import ResultModal from './components/ResultModal.jsx'
 import QRPreview from './components/QRPreview.jsx'
+import LivePreview from './components/LivePreview.jsx'
 import { EMPTY_FIELDS, QR_TYPES, buildPayload } from './utils/payloads.js'
 import { DEFAULT_SETTINGS } from './utils/settings.js'
 import { applyPreset, findPresetId } from './utils/presets.js'
@@ -178,6 +179,7 @@ export default function App() {
             inputRef={inputRef}
             generateRef={generateRef}
           />
+          {payload && <LivePreview payload={payload} typeLabel={typeLabel} settings={settings} />}
         </main>
         <Marquee />
         <SettingsButton buttonRef={settingsButtonRef} expanded={drawerOpen} onClick={() => setDrawerOpen(true)} />
@@ -194,6 +196,8 @@ export default function App() {
         onRestore={restoreEntry}
         onDelete={deleteEntry}
         onClear={clearRecent}
+        payload={payload}
+        typeLabel={typeLabel}
       />
 
       {phase === 'creating' && (

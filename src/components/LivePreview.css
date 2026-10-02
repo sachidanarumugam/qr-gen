@@ -1,0 +1,37 @@
+.live {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 220px);
+  margin: 0;
+  padding: 12px;
+  border: var(--border);
+  background: var(--white);
+  color: var(--black);
+  box-shadow: var(--sh) var(--sh) 0 var(--black);
+  transform: rotate(-1deg);
+  animation: fade-in 200ms ease-out both;
+}
+
+.live-compact {
+  width: min(100%, 168px);
+  justify-self: center;
+  transform: none;
+}
+
+.live-compact .qr-empty {
+  min-height: 112px;
+  font-size: 0.75rem;
+}
+
+.live-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live {
+    animation: none;
+  }
+}

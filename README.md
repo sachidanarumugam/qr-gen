@@ -25,6 +25,7 @@ npm run build
 ## Features
 
 - One screen: a headline, one big input with a Generate button, and chips for the type (URL, Text, Email, Phone, Wi-Fi). Email and Wi-Fi expand extra fields under the chips. Each type keeps its own inputs when you switch.
+- A live preview appears under the form as soon as the input is valid, and a smaller one sits at the top of the settings drawer. Both redraw as you type and as you change any setting.
 - Generate is greyed out until the input is valid. Clicking it early shakes the bar and says what is wrong.
 - Clicking Generate runs a short "creating" loader, then opens a result modal with the QR code, a Download PNG button and Create another. Close it with the X, Escape, or a click outside. Focus stays inside the modal and returns to Generate when it closes.
 - A settings drawer (the round button, top right) holds size (128 to 1024 px), foreground and background color, error correction (L, M, Q, H) and margin (0 to 10 modules), plus six presets and the recent list.

@@ -3,6 +3,7 @@ import { X } from 'lucide-react'
 import StyleControls from './StyleControls.jsx'
 import PresetPicker from './PresetPicker.jsx'
 import RecentList from './RecentList.jsx'
+import LivePreview from './LivePreview.jsx'
 import useFocusTrap from '../hooks/useFocusTrap.js'
 import './SettingsDrawer.css'
 
@@ -17,6 +18,8 @@ export default function SettingsDrawer({
   onRestore,
   onDelete,
   onClear,
+  payload,
+  typeLabel,
 }) {
   const panelRef = useRef(null)
   useFocusTrap(panelRef, open, onClose)
@@ -39,6 +42,8 @@ export default function SettingsDrawer({
             <X size={24} strokeWidth={3} aria-hidden="true" />
           </button>
         </div>
+
+        <LivePreview compact payload={payload} typeLabel={typeLabel} settings={settings} />
 
         <section className="drawer-section" aria-labelledby="drawer-style">
           <h3 id="drawer-style">Style</h3>
