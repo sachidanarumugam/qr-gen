@@ -4,8 +4,6 @@ A browser-only tool for making QR codes. Choose a content type, adjust the style
 
 Live demo: https://qr-gen-henna-five.vercel.app
 
-Built with the help of Cursor (AI-assisted).
-
 ![The home screen: a huge headline, one input with a Generate button, and type chips](docs/screenshots/desktop.png)
 
 ## Setup
@@ -62,6 +60,7 @@ The production build is a static `dist/` folder. On Vercel or Netlify, set the b
 
 ## Credits
 
+- [Cursor](https://cursor.com).
 - [qrcode.react](https://github.com/zpao/qrcode.react) for drawing the codes. It bundles the Nayuki QR Code generator.
 - [Lucide](https://lucide.dev) for the icons.
 - [JetBrains Mono](https://www.jetbrains.com/lp/mono/), served by [Google Fonts](https://fonts.google.com/specimen/JetBrains+Mono).
