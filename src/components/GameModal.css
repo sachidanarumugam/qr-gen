@@ -1,0 +1,125 @@
+.game-overlay {
+  place-items: center;
+}
+
+.game-overlay.is-closing {
+  animation: fade-out 200ms ease-in both;
+}
+
+.game-modal {
+  width: min(92vw, 480px);
+  max-height: calc(100svh - 32px);
+  overflow: auto;
+}
+
+.game-title {
+  max-width: 16ch;
+  font-size: clamp(1.7rem, 7vw, 2.75rem);
+  line-height: 0.95;
+}
+
+.game-sub {
+  max-width: 36ch;
+  font-weight: 700;
+}
+
+.game-actions,
+.game-nav {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+
+.game-nav {
+  grid-template-columns: 1fr 1fr;
+}
+
+.game-modal .btn {
+  width: 100%;
+  min-height: 56px;
+  white-space: normal;
+  line-height: 1.15;
+}
+
+.game-play {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.game-status {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.board {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+
+.board-3 {
+  grid-template-columns: repeat(3, minmax(56px, 1fr));
+  max-width: 280px;
+}
+
+.board-4 {
+  grid-template-columns: repeat(4, minmax(56px, 1fr));
+  max-width: 360px;
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  min-width: 56px;
+  min-height: 56px;
+  aspect-ratio: 1;
+  padding: 0;
+  border: var(--border);
+  background: var(--white);
+  color: var(--black);
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-weight: 800;
+  --sh: 4px;
+}
+
+.tile:disabled {
+  cursor: default;
+}
+
+.tile-down {
+  background: var(--black);
+}
+
+.tile-up,
+.tile-lit {
+  background: var(--lime);
+}
+
+.tile svg {
+  width: 62%;
+  height: 62%;
+}
+
+.game-modal .check {
+  width: 100%;
+  justify-content: center;
+}
+
+.game-modal .check span {
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .game-modal {
+    box-shadow: 6px 6px 0 var(--black);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-overlay.is-closing {
+    animation: fade-out 200ms ease both;
+  }
+}

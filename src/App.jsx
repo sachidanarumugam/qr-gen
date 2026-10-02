@@ -15,6 +15,8 @@ import { DEFAULT_SETTINGS } from './utils/settings.js'
 import { applyPreset, findPresetId } from './utils/presets.js'
 import { validateFields } from './utils/validators.js'
 import { addRecent, loadRecent, removeRecent, saveRecent } from './utils/storage.js'
+import { loadMiniGamesEnabled, saveMiniGamesEnabled } from './utils/minigames.js'
+import GameModal from './components/GameModal.jsx'
 import './App.css'
 
 const CREATING_MS = 1300
@@ -36,6 +38,7 @@ export default function App() {
   const [attempted, setAttempted] = useState(false)
   const [shaking, setShaking] = useState(false)
   const [tooLong, setTooLong] = useState(false)
+  const [miniGames, setMiniGames] = useState(() => loadMiniGamesEnabled())
 
   const inputRef = useRef(null)
   const generateRef = useRef(null)
@@ -43,6 +46,8 @@ export default function App() {
   // Set while the loader runs, by the hidden QR that tries to encode the payload.
   const encodeFailedRef = useRef(false)
   const pendingFocusRef = useRef(null)
+  const miniGamesRef = useRef(miniGames)
+  miniGamesRef.current = miniGames
 
   const fields = fieldsByType[type]
   const payload = buildPayload(type, fields)
@@ -147,7 +152,7 @@ export default function App() {
         if (next === current) return current
         return saveRecent(next) ? next : current
       })
-      setPhase('result')
+      setPhase(miniGamesRef.current ? 'play' : 'result')
     }, CREATING_MS)
     return () => window.clearTimeout(timer)
   }, [phase, type, fields, settings])
@@ -198,6 +203,11 @@ export default function App() {
         onClear={clearRecent}
         payload={payload}
         typeLabel={typeLabel}
+        miniGames={miniGames}
+        onMiniGamesChange={(enabled) => {
+          setMiniGames(enabled)
+          saveMiniGamesEnabled(enabled)
+        }}
       />
 
       {phase === 'creating' && (
@@ -215,6 +225,21 @@ export default function App() {
             />
           </div>
         </>
+      )}
+
+      {phase === 'play' && (
+        <GameModal
+          gamesOn={miniGames}
+          onGamesOnChange={(enabled) => {
+            setMiniGames(enabled)
+            saveMiniGamesEnabled(enabled)
+          }}
+          onReveal={() => setPhase('result')}
+          onDismiss={() => {
+            pendingFocusRef.current = generateRef
+            setPhase('idle')
+          }}
+        />
       )}
 
       {phase === 'result' && (

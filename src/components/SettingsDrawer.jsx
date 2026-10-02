@@ -4,6 +4,7 @@ import StyleControls from './StyleControls.jsx'
 import PresetPicker from './PresetPicker.jsx'
 import RecentList from './RecentList.jsx'
 import LivePreview from './LivePreview.jsx'
+import CheckboxField from './CheckboxField.jsx'
 import useFocusTrap from '../hooks/useFocusTrap.js'
 import './SettingsDrawer.css'
 
@@ -20,6 +21,8 @@ export default function SettingsDrawer({
   onClear,
   payload,
   typeLabel,
+  miniGames,
+  onMiniGamesChange,
 }) {
   const panelRef = useRef(null)
   useFocusTrap(panelRef, open, onClose)
@@ -52,6 +55,11 @@ export default function SettingsDrawer({
         <section className="drawer-section" aria-labelledby="drawer-presets">
           <h3 id="drawer-presets">Presets</h3>
           <PresetPicker activeId={presetId} onSelect={onSelectPreset} />
+        </section>
+        <section className="drawer-section" aria-labelledby="drawer-games">
+          <h3 id="drawer-games">Mini-games</h3>
+          <CheckboxField label="Show mini-games" checked={miniGames} onChange={onMiniGamesChange} />
+          <p className="level-help">Turn this off to skip the game offer and go straight to your QR code.</p>
         </section>
         <section className="drawer-section" aria-labelledby="drawer-recent">
           <h3 id="drawer-recent">Recent</h3>

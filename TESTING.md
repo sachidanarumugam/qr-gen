@@ -6,6 +6,7 @@ Run `npm run dev` and open the site. Check these in a desktop window and again a
 
 - [ ] Type `example.com`. A live preview appears under the chips and updates on every keystroke. Clearing the input removes it.
 - [ ] Type `example.com`, press Generate (or Enter). The button says "Creating..." and a loader with filling squares appears over a blurred page for about 1.3 seconds.
+- [ ] After the loader, a game offer appears. "No thanks, just download" opens the result modal. With "Show mini-games" off in settings, the result modal opens right after the loader.
 - [ ] The result modal pops in with a drawing checkmark, "QR created!", the QR code on a white card, and confetti. The page behind is blurred and tinted blue.
 - [ ] Download PNG saves `qr-url-<date>-<time>.png`. Its pixel size matches the Size setting, including on a high-density screen.
 - [ ] Escape, the X, a click outside, and Create another all close the modal with a short exit animation. Focus returns to Generate, except after Create another, which clears the input and focuses it.
@@ -36,6 +37,16 @@ Run `npm run dev` and open the site. Check these in a desktop window and again a
 ## Warnings
 
 - [ ] The live preview, the drawer preview and the modal show a note for contrast below 4:1 (stronger wording below 2:1), a lighter foreground than background, a size under 160 px, a margin under 4, and a payload over 200 characters at a size under 256. Download still works.
+
+## Mini-games
+
+- [ ] After the loader the offer shows Tic-tac-toe, Memory match, Quick tap, and "No thanks, just download".
+- [ ] Tic-tac-toe: you play X. Winning shows "You won!" and then the QR modal. Losing or a draw shows "Try again" and "Skip & download". The computer takes its own wins and blocks yours, and can still be beaten.
+- [ ] Memory match: 12 cards, 6 pairs. A match stays up. A mismatch flips back. The move count goes up on every pair. Matching all of them reaches the QR modal.
+- [ ] Quick tap: one square is lime and moves. Eight hits before the timer ends reaches the QR modal. Letting the timer run out shows "Try again".
+- [ ] Every game has Back (returns to the offer) and Skip & download (opens the QR modal). Escape, the X, and a click outside close the offer and leave the code in Recent. Download PNG still works from the QR modal.
+- [ ] "Don't ask again" skips the offer on the next Generate. "Show mini-games" in the settings drawer turns the offer back on.
+- [ ] At 360 px the tiles are at least 56 px and the page does not scroll sideways. With reduced motion on, Quick tap moves more slowly and the win burst does not throw confetti.
 
 ## Layout, motion, keyboard
 
