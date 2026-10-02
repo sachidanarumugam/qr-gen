@@ -1,0 +1,438 @@
+/* Night palette. Light rules stay in the component files; these only apply when html[data-theme="dark"]. */
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  background: #07072b;
+  /* Hard shadows on pressable controls pick this up. Light mode keeps black. */
+  --sh-color: #0000ff;
+  --focus-color: #ccff00;
+}
+
+[data-theme='dark'] body {
+  background: #07072b;
+  color: #ccff00;
+}
+
+[data-theme='dark'] :focus-visible {
+  outline-color: #ccff00;
+}
+
+[data-theme='dark'] .on-light {
+  --focus-color: #ccff00;
+}
+
+[data-theme='dark'] .on-light :focus-visible {
+  outline-color: #ccff00;
+}
+
+/* Page chrome that stays lime with black type, plus a blue shadow. */
+[data-theme='dark'] .pop {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+  box-shadow: 0.06em 0.06em 0 #0000ff;
+}
+
+[data-theme='dark'] .marquee {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+  box-shadow: 6px 6px 0 #0000ff;
+}
+
+[data-theme='dark'] .settings-button {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+}
+
+[data-theme='dark'] .wordmark {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+  box-shadow: var(--sh) var(--sh) 0 #0000ff;
+}
+
+[data-theme='dark'] .wordmark-mark {
+  background: #ccff00;
+  border-color: #000;
+}
+
+/* Floating shapes stay readable on navy: lime, white, and blue, with black or lime outlines. */
+[data-theme='dark'] .shape-square rect {
+  fill: #fff;
+  stroke: #ccff00;
+}
+
+[data-theme='dark'] .shape-plus path {
+  fill: #0000ff;
+  stroke: #ccff00;
+}
+
+[data-theme='dark'] .shape-square-small rect {
+  fill: #0000ff;
+  stroke: #ccff00;
+}
+
+[data-theme='dark'] .badge {
+  filter: drop-shadow(6px 6px 0 #0000ff);
+}
+
+/* Inputs become navy panels. Placeholder lime at 60% on #0F0F4A is rgb(128, 159, 30), 5.81:1. */
+[data-theme='dark'] .control {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .control::placeholder,
+[data-theme='dark'] .bar-input::placeholder {
+  color: #ccff00;
+  opacity: 0.6;
+}
+
+[data-theme='dark'] .bar {
+  background: #0f0f4a;
+  border-color: #ccff00;
+  box-shadow: var(--sh) var(--sh) 0 #0000ff;
+}
+
+[data-theme='dark'] .bar-input {
+  color: #ccff00;
+}
+
+[data-theme='dark'] .bar-button {
+  --sh-color: #0000ff;
+}
+
+[data-theme='dark'] .bar:has(.bar-input:focus-visible) {
+  outline-color: #ccff00;
+}
+
+[data-theme='dark'] .bar-button.pressable:hover:not([aria-disabled='true']) {
+  background: #0f0f4a;
+  color: #ccff00;
+  box-shadow: inset 0 0 0 3px #ccff00;
+}
+
+[data-theme='dark'] .bar-button:focus-visible {
+  outline-color: #000;
+}
+
+[data-theme='dark'] .select-icon {
+  color: #ccff00;
+}
+
+[data-theme='dark'] .swatch {
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .check input {
+  background: #0f0f4a;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .check input:checked {
+  background: #ccff00;
+  border-color: #000;
+}
+
+[data-theme='dark'] .field-error:not(:empty) {
+  padding: 6px 8px;
+  border: 3px solid #ccff00;
+  background: #000;
+  color: #ccff00;
+}
+
+@media (max-width: 640px) {
+  [data-theme='dark'] .bar {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  [data-theme='dark'] .swap {
+    background: #0f0f4a;
+    border-color: #ccff00;
+    box-shadow: var(--sh) var(--sh) 0 #0000ff;
+  }
+
+  [data-theme='dark'] .swap:has(.bar-input:focus-visible) {
+    outline-color: #ccff00;
+  }
+
+  [data-theme='dark'] .bar-button.pressable:hover:not([aria-disabled='true']) {
+    background: #ccff00;
+    color: #000;
+    box-shadow: calc(var(--sh) + 3px) calc(var(--sh) + 3px) 0 #0000ff;
+  }
+
+  [data-theme='dark'] .bar-button.pressable:active:not([aria-disabled='true']) {
+    background: #ccff00;
+    color: #000;
+    box-shadow: 0 0 0 #0000ff;
+  }
+
+  [data-theme='dark'] .bar-button:focus-visible {
+    outline-color: #ccff00;
+  }
+}
+
+/* Unselected chips are panels. The selected chip stays lime with black type. */
+[data-theme='dark'] .segmented-chip .segment-label {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+  --sh-color: #0000ff;
+  box-shadow: 6px 6px 0 #0000ff;
+}
+
+[data-theme='dark'] .segmented-chip .segment-label:hover,
+[data-theme='dark'] .segmented-chip .segment input:checked + .segment-label:hover {
+  box-shadow: calc(var(--sh) + 3px) calc(var(--sh) + 3px) 0 #0000ff;
+}
+
+[data-theme='dark'] .segmented-chip .segment-label:active,
+[data-theme='dark'] .segmented-chip .segment input:checked + .segment-label:active {
+  box-shadow: 0 0 0 #0000ff;
+}
+
+[data-theme='dark'] .segmented-chip .segment input:checked + .segment-label {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+  --sh-color: #0000ff;
+  box-shadow: var(--sh) var(--sh) 0 #0000ff;
+}
+
+[data-theme='dark'] .segmented-square .segment-label {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .segmented-square .segment input:checked + .segment-label {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+}
+
+/* Drawer, modals, loader: navy panels, lime borders, one blue shadow. */
+[data-theme='dark'] .drawer-backdrop,
+[data-theme='dark'] .overlay {
+  background: rgba(7, 7, 43, 0.6);
+}
+
+[data-theme='dark'] .drawer {
+  --label-color: #ccff00;
+  background: #0f0f4a;
+  color: #ccff00;
+  border-left: 3px solid #ccff00;
+  box-shadow: 6px 6px 0 #0000ff;
+}
+
+[data-theme='dark'] .drawer-section h3 {
+  border-bottom-color: #ccff00;
+}
+
+[data-theme='dark'] .sticker,
+[data-theme='dark'] .icon-button,
+[data-theme='dark'] .modal-close {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .range::-webkit-slider-runnable-track {
+  background: #ccff00;
+}
+
+[data-theme='dark'] .range::-moz-range-track {
+  background: #ccff00;
+}
+
+[data-theme='dark'] .modal {
+  --label-color: #ccff00;
+  background: #0f0f4a;
+  color: #ccff00;
+  border: 3px solid #ccff00;
+  box-shadow: 10px 10px 0 #0000ff;
+}
+
+[data-theme='dark'] .check-circle {
+  fill: #ccff00;
+  stroke: #000;
+}
+
+[data-theme='dark'] .check-mark {
+  stroke: #000;
+}
+
+[data-theme='dark'] .creating-card {
+  background: #0f0f4a;
+  color: #ccff00;
+  border: 3px solid #ccff00;
+  box-shadow: 10px 10px 0 #0000ff;
+}
+
+[data-theme='dark'] .progress {
+  background: #0f0f4a;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .progress-segment {
+  background: #07072b;
+  border-color: #ccff00;
+}
+
+@media (max-width: 600px) {
+  [data-theme='dark'] .modal,
+  [data-theme='dark'] .game-modal,
+  [data-theme='dark'] .creating-card {
+    box-shadow: 6px 6px 0 #0000ff;
+  }
+}
+
+/* Secondary buttons become panels. Lime and black buttons keep their fills. */
+[data-theme='dark'] .btn,
+[data-theme='dark'] .btn-white {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .btn-lime {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+}
+
+[data-theme='dark'] .btn-black {
+  background: #000;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .preset,
+[data-theme='dark'] .recent-open,
+[data-theme='dark'] .recent-delete {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .preset.is-active {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+}
+
+[data-theme='dark'] .recent-delete:hover:not(:disabled) {
+  background: #ccff00;
+  color: #000;
+}
+
+/* The QR card stays white with a black border. The shadow is the only night-mode change. */
+[data-theme='dark'] .live,
+[data-theme='dark'] .qr-card {
+  background: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+[data-theme='dark'] .live {
+  box-shadow: var(--sh) var(--sh) 0 #0000ff;
+}
+
+[data-theme='dark'] .qr-card {
+  box-shadow: 6px 6px 0 #0000ff;
+}
+
+[data-theme='dark'] .qr-empty {
+  border-color: #000;
+  color: #000;
+}
+
+@media (max-width: 600px) {
+  [data-theme='dark'] .qr-card {
+    box-shadow: 4px 4px 0 #0000ff;
+  }
+}
+
+/* Warnings sit on the white card and on the modal. Lime on black, or black on lime. */
+[data-theme='dark'] .scan-warnings {
+  background: #000;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .scan-warnings .is-strong {
+  background: #ccff00;
+  color: #000;
+}
+
+[data-theme='dark'] .error-tag {
+  background: #000;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+/* Game tiles are navy with lime borders. Memory backs are lime with a black pattern. */
+[data-theme='dark'] .tile {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .tile-up {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .tile-down {
+  background-color: #ccff00;
+  background-image: repeating-linear-gradient(135deg, #000 0 3px, #ccff00 3px 8px);
+  color: #000;
+  border-color: #000;
+}
+
+[data-theme='dark'] .tile-lit {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+}
+
+/* The switch itself, sitting on the navy drawer. */
+[data-theme='dark'] .theme-switch {
+  background: #0f0f4a;
+  color: #ccff00;
+  border-color: #ccff00;
+  box-shadow: 6px 6px 0 #0000ff;
+}
+
+[data-theme='dark'] .theme-switch:hover {
+  box-shadow: 8px 8px 0 #0000ff;
+}
+
+[data-theme='dark'] .theme-switch:active {
+  box-shadow: 0 0 0 #0000ff;
+}
+
+[data-theme='dark'] .theme-switch-track {
+  background: #07072b;
+  border-color: #ccff00;
+}
+
+[data-theme='dark'] .theme-switch-thumb {
+  background: #ccff00;
+  color: #000;
+  border-color: #000;
+}
+
+[data-theme='dark'] .drawer .theme-switch:focus-visible,
+[data-theme='dark'] .drawer .theme-switch:focus-visible:hover {
+  outline: 3px solid #ccff00;
+  outline-offset: 3px;
+  box-shadow: 6px 6px 0 #0000ff;
+}

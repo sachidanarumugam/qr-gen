@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Hero from './components/Hero.jsx'
 import GenerateForm from './components/GenerateForm.jsx'
 import Decor from './components/Decor.jsx'
@@ -16,6 +16,7 @@ import { applyPreset, findPresetId } from './utils/presets.js'
 import { validateFields } from './utils/validators.js'
 import { addRecent, loadRecent, removeRecent, saveRecent } from './utils/storage.js'
 import { loadMiniGamesEnabled, saveMiniGamesEnabled } from './utils/minigames.js'
+import { applyTheme, loadTheme, saveTheme } from './utils/theme.js'
 import GameModal from './components/GameModal.jsx'
 import './App.css'
 
@@ -39,6 +40,7 @@ export default function App() {
   const [shaking, setShaking] = useState(false)
   const [tooLong, setTooLong] = useState(false)
   const [miniGames, setMiniGames] = useState(() => loadMiniGamesEnabled())
+  const [nightMode, setNightMode] = useState(() => loadTheme() === 'dark')
 
   const inputRef = useRef(null)
   const generateRef = useRef(null)
@@ -48,6 +50,19 @@ export default function App() {
   const pendingFocusRef = useRef(null)
   const miniGamesRef = useRef(miniGames)
   miniGamesRef.current = miniGames
+
+  useLayoutEffect(() => {
+    applyTheme(nightMode ? 'dark' : 'light')
+  }, [nightMode])
+
+  function toggleNightMode() {
+    setNightMode((current) => {
+      const next = !current
+      saveTheme(next ? 'dark' : 'light')
+      applyTheme(next ? 'dark' : 'light')
+      return next
+    })
+  }
 
   const fields = fieldsByType[type]
   const payload = buildPayload(type, fields)
@@ -208,6 +223,8 @@ export default function App() {
           setMiniGames(enabled)
           saveMiniGamesEnabled(enabled)
         }}
+        nightMode={nightMode}
+        onNightModeChange={toggleNightMode}
       />
 
       {phase === 'creating' && (

@@ -41,7 +41,12 @@
   background: var(--lime);
   color: var(--black);
   transform: translateX(100%);
-  transition: transform 300ms ease-out;
+  transition:
+    transform 300ms ease-out,
+    background-color 300ms ease,
+    color 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
 }
 
 .is-open .drawer {

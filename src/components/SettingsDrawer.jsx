@@ -5,6 +5,7 @@ import PresetPicker from './PresetPicker.jsx'
 import RecentList from './RecentList.jsx'
 import LivePreview from './LivePreview.jsx'
 import CheckboxField from './CheckboxField.jsx'
+import ThemeToggle from './ThemeToggle.jsx'
 import useFocusTrap from '../hooks/useFocusTrap.js'
 import './SettingsDrawer.css'
 
@@ -23,6 +24,8 @@ export default function SettingsDrawer({
   typeLabel,
   miniGames,
   onMiniGamesChange,
+  nightMode,
+  onNightModeChange,
 }) {
   const panelRef = useRef(null)
   useFocusTrap(panelRef, open, onClose)
@@ -32,6 +35,7 @@ export default function SettingsDrawer({
       {/* Pointer-only: keyboard users close with Escape or the X button. */}
       <div className="drawer-backdrop" onClick={onClose} />
       <aside ref={panelRef} className="drawer on-light" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+        <ThemeToggle enabled={nightMode} onToggle={onNightModeChange} />
         <div className="drawer-head">
           <div className="drawer-title-wrap">
             <h2 id="drawer-title" className="drawer-title">

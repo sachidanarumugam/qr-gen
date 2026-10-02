@@ -6,6 +6,40 @@
   pointer-events: none;
 }
 
+.shape-circle circle {
+  fill: var(--lime);
+  stroke: var(--black);
+}
+
+.shape-square rect {
+  fill: var(--white);
+  stroke: var(--black);
+}
+
+.shape-plus path {
+  fill: var(--black);
+  stroke: var(--lime);
+}
+
+.shape-star path {
+  fill: var(--lime);
+  stroke: var(--black);
+}
+
+.shape-square-small rect {
+  fill: var(--lime);
+  stroke: var(--black);
+}
+
+.badge circle {
+  fill: var(--lime);
+  stroke: var(--black);
+}
+
+.badge text {
+  fill: var(--black);
+}
+
 .shape {
   position: absolute;
   width: var(--size, 72px);

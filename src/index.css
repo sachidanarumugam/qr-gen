@@ -56,6 +56,9 @@ body {
   margin: 0;
   background: var(--blue);
   color: var(--lime);
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.5;
@@ -119,9 +122,10 @@ input[type='color'] {
   box-shadow: var(--sh) var(--sh) 0 var(--sh-color);
   transition:
     transform var(--transition),
-    box-shadow var(--transition),
-    background-color var(--transition),
-    color var(--transition);
+    box-shadow 300ms ease,
+    background-color 300ms ease,
+    color 300ms ease,
+    border-color 300ms ease;
 }
 
 .pressable:hover:not(:disabled, [aria-disabled='true']) {
@@ -169,6 +173,53 @@ input[type='color'] {
 .btn[aria-disabled='true'] {
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+/* Theme changes animate paint only. :where keeps this from replacing a control's own transition. */
+:where(
+  .drawer,
+  .drawer-backdrop,
+  .overlay,
+  .modal,
+  .bar,
+  .swap,
+  .control,
+  .segment-label,
+  .tile,
+  .live,
+  .qr-card,
+  .wordmark,
+  .marquee,
+  .creating-card,
+  .progress,
+  .progress-segment,
+  .preset,
+  .scan-warnings,
+  .sticker,
+  .icon-button,
+  .pop,
+  .error-tag,
+  .check input,
+  .recent-open,
+  .recent-delete,
+  .modal-close,
+  .extras,
+  .swatch,
+  .shape,
+  .shape circle,
+  .shape rect,
+  .shape path,
+  .badge,
+  .badge circle,
+  .badge text
+) {
+  transition:
+    background-color 300ms ease,
+    color 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    fill 300ms ease,
+    stroke 300ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

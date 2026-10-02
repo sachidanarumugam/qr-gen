@@ -54,3 +54,13 @@ Run `npm run dev` and open the site. Check these in a desktop window and again a
 - [ ] Floating shapes are hidden under 480 px wide.
 - [ ] With "reduce motion" turned on in the system settings, the marquee, shapes, badge and confetti are still, and things fade instead of bouncing.
 - [ ] Every control shows a white focus ring on the blue page and a black one inside the drawer and modal. Buttons and chips are at least 44 px tall.
+
+## Night mode
+
+The default is the current light theme. Night mode is a switch at the top of the settings drawer.
+
+- [ ] The switch reads "NIGHT MODE: OFF" in the light theme. It is a square track with a square thumb, a sun icon, and a white focus ring. Turn it on: the thumb slides, the icon becomes a moon, and the label reads "NIGHT MODE: ON". Turn it off again and the light theme returns unchanged.
+- [ ] Reload while night mode is on. The page is already navy before it paints (no flash of blue). Reload while it is off. The page stays blue. A bad or missing saved value stays on the light theme.
+- [ ] In night mode, check the main page, type chips, Wi-Fi fields, the drawer (sliders and L/M/Q/H), the loader, the game picker, all three games, the "QR CREATED!" modal, an inline error, a scan warning, and the recent list. Panels are navy with lime borders. Lime buttons, the selected chip, the headline sticker, the marquee, and the badge stay lime with black text.
+- [ ] The live preview and the result card stay on a white card. Download a PNG in night mode and scan it. The file matches the colors you picked, not the night theme.
+- [ ] At 360 px, 768 px, and 1440 px the page does not scroll sideways. Tab to the switch: the focus ring is white in the light theme and lime in night mode. With reduced motion on, the theme still changes and the thumb moves without a slide.

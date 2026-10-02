@@ -4,6 +4,21 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0000ff" />
+    <script>
+      (function () {
+        try {
+          var dark = localStorage.getItem('qr-generator:theme:v1') === 'dark'
+          if (dark) document.documentElement.setAttribute('data-theme', 'dark')
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (meta) meta.setAttribute('content', dark ? '#07072b' : '#0000ff')
+        } catch (e) {}
+      })()
+    </script>
+    <style>
+      html { background: #0000ff; }
+      html[data-theme='dark'] { background: #07072b; }
+    </style>
     <meta
       name="description"
       content="QR codes. Not boring. Make a QR code for a URL, text, email, phone number or Wi-Fi network, restyle it and download a PNG. Runs entirely in your browser."
