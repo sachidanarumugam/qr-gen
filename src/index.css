@@ -7,10 +7,10 @@
   --warn-bg: #fef3c7;
   --error: #b3261e;
 
-  /* Fallbacks are named fonts, not system-ui, so layout stays close if a font file fails. */
-  --font-heading: 'Bricolage Grotesque', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-body: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
+  /* One face for the whole page. Fallbacks stay monospace so a failed font file does not switch the layout to a proportional font. */
+  --font-heading: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
+  --font-body: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
 
   --text-sm: 0.875rem; /* 14px */
   --text-md: 1rem; /* 16px */

@@ -45,7 +45,7 @@ Presets are dark marks on a light background, each with a contrast ratio of at l
 
 Recent codes are stored as data, not images, under the key `qr-generator:recent:v1`. A Wi-Fi password is stored so the entry can be restored, and the list shows "password hidden" instead of the password. Reads and writes are wrapped so a full disk or broken saved data does not crash the page.
 
-Fonts are self-hosted with `@fontsource`: Bricolage Grotesque 700, IBM Plex Sans 400 and 500, and IBM Plex Mono 400.
+Fonts are self-hosted with `@fontsource`: JetBrains Mono 400, 500, and 700.
 
 ## Deploy
 
@@ -55,7 +55,7 @@ The production build is a static `dist/` folder. On Vercel or Netlify, set the b
 
 - [qrcode.react](https://github.com/zpao/qrcode.react) for drawing the codes. It bundles the Nayuki QR Code generator.
 - [Lucide](https://lucide.dev) for the icons.
-- [Bricolage Grotesque](https://github.com/atelier-anchor/bricolage), [IBM Plex Sans](https://github.com/IBM/plex), and [IBM Plex Mono](https://github.com/IBM/plex), loaded through [@fontsource](https://fontsource.org).
+- [JetBrains Mono](https://www.jetbrains.com/lp/mono/), loaded through [@fontsource](https://fontsource.org).
 - [React](https://react.dev) and [Vite](https://vite.dev).
 
 ## Screenshots
