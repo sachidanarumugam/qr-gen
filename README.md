@@ -2,6 +2,10 @@
 
 A browser-only tool for making QR codes. Choose a content type, adjust the style, and download a PNG at the exact pixel size you picked. Nothing is sent to a server.
 
+Live demo: https://qr-forge-henna-five.vercel.app
+
+Built with the help of Cursor (AI-assisted).
+
 ![The home screen: a huge headline, one input with a Generate button, and type chips](docs/screenshots/desktop.png)
 
 ## Setup
