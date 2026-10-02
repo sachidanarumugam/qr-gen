@@ -7,11 +7,6 @@
   --warn-bg: #fef3c7;
   --error: #b3261e;
 
-  /* One face for the whole page. Fallbacks stay monospace so a failed font file does not switch the layout to a proportional font. */
-  --font-heading: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
-  --font-body: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
-  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
-
   --text-sm: 0.875rem; /* 14px */
   --text-md: 1rem; /* 16px */
   --text-lg: 1.25rem; /* 20px */
@@ -38,6 +33,28 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Form controls and a few other elements do not inherit the page font by default. */
+input,
+textarea,
+button,
+select,
+label,
+h1,
+h2,
+h3,
+p,
+span,
+small,
+code,
+pre {
+  font-family: inherit;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }
@@ -46,7 +63,6 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-body);
   font-size: var(--text-md);
   font-weight: 400;
   line-height: 1.5;
@@ -58,10 +74,16 @@ p {
   margin: 0;
 }
 
+/* JetBrains Mono is wider than the old heading font, so headings are tightened slightly. */
+h1,
+h2 {
+  letter-spacing: -0.02em;
+}
+
 h1 {
-  font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.1;
+  overflow-wrap: break-word;
 }
 
 .visually-hidden {
@@ -78,12 +100,6 @@ h1 {
 .stack {
   display: grid;
   gap: var(--space-3);
-}
-
-/* Mono is used for every number and payload so digits line up. */
-code,
-.mono {
-  font-family: var(--font-mono);
 }
 
 .button {

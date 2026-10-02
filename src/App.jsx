@@ -20,8 +20,6 @@ import {
 } from './utils/storage.js'
 import './App.css'
 
-const GUIDE_COLUMNS = Array.from({ length: 12 }, (_, i) => i)
-
 const TYPE_OPTIONS = QR_TYPES.map((item) => ({ value: item.id, label: item.label }))
 
 export default function App() {
@@ -111,11 +109,6 @@ export default function App() {
 
   return (
     <div className="page">
-      <div className="grid-guides" aria-hidden="true">
-        {GUIDE_COLUMNS.map((column) => (
-          <span key={column} />
-        ))}
-      </div>
       <Header />
       {/* DOM order is the mobile order: the preview sits right after the content inputs. */}
       <main className="layout">

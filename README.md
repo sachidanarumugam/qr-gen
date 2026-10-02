@@ -35,7 +35,7 @@ npm run build
 
 ## Design decisions
 
-The page is laid out like a printed spec sheet: numbered sections, a 12-column guide on wide screens, flat color, and a hard offset shadow on the preview card and the download button. The only accent is blue, used for focus, the selected state, and the bar on the download button. The button face stays paper-colored so the label stays easy to read.
+The page is laid out like a printed spec sheet: numbered sections on a 12-column grid, flat color, and a hard offset shadow on the preview card and the download button. The only accent is blue, used for focus, the selected state, and the bar on the download button. The button face stays paper-colored so the label stays easy to read.
 
 The QR code is drawn on a canvas. `qrcode.react` scales that canvas by the screen's pixel density, so a direct export would not match the size you chose. The download copies the canvas onto a new one of the selected size, then saves that file.
 
@@ -45,7 +45,7 @@ Presets are dark marks on a light background, each with a contrast ratio of at l
 
 Recent codes are stored as data, not images, under the key `qr-generator:recent:v1`. A Wi-Fi password is stored so the entry can be restored, and the list shows "password hidden" instead of the password. Reads and writes are wrapped so a full disk or broken saved data does not crash the page.
 
-Fonts are self-hosted with `@fontsource`: JetBrains Mono 400, 500, and 700.
+All text uses JetBrains Mono, loaded from Google Fonts in `index.html`.
 
 ## Deploy
 
@@ -55,7 +55,7 @@ The production build is a static `dist/` folder. On Vercel or Netlify, set the b
 
 - [qrcode.react](https://github.com/zpao/qrcode.react) for drawing the codes. It bundles the Nayuki QR Code generator.
 - [Lucide](https://lucide.dev) for the icons.
-- [JetBrains Mono](https://www.jetbrains.com/lp/mono/), loaded through [@fontsource](https://fontsource.org).
+- [JetBrains Mono](https://www.jetbrains.com/lp/mono/), served by [Google Fonts](https://fonts.google.com/specimen/JetBrains+Mono).
 - [React](https://react.dev) and [Vite](https://vite.dev).
 
 ## Screenshots
