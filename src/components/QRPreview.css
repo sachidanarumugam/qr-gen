@@ -10,6 +10,32 @@
   text-align: center;
 }
 
+.qr-frame {
+  position: relative;
+}
+
+/* Holds the module grid used to paint the canvas. It is not part of the picture. */
+.qr-source {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 .qr-frame canvas {
   display: block;
+  width: 100%;
+  height: auto;
+  /* The bitmap is the export size. This only scales the on-screen preview. */
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+.qr-export-size {
+  margin: 8px 0 0;
+  color: var(--black);
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: center;
 }

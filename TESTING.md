@@ -8,7 +8,7 @@ Run `npm run dev` and open the site. Check these in a desktop window and again a
 - [ ] Type `example.com`, press Generate (or Enter). The button says "Creating..." and a loader with filling squares appears over a blurred page for about 1.3 seconds.
 - [ ] After the loader, a game offer appears. "No thanks, just download" opens the result modal. With "Show mini-games" off in settings, the result modal opens right after the loader.
 - [ ] The result modal pops in with a drawing checkmark, "QR created!", the QR code on a white card, and confetti. The page behind is blurred and tinted blue.
-- [ ] Download PNG saves `qr-url-<date>-<time>.png`. Its pixel size matches the Size setting, including on a high-density screen.
+- [ ] Download PNG saves `qr-url-<date>-<time>.png`. The file is the same image as the preview. Its pixel width and height match the "Exports at" line under the code, including on a high-density screen. Every module is a whole number of pixels.
 - [ ] Escape, the X, a click outside, and Create another all close the modal with a short exit animation. Focus returns to Generate, except after Create another, which clears the input and focuses it.
 - [ ] While the modal is open, Tab and Shift+Tab never leave it.
 - [ ] Generate on an empty input shakes the bar and shows "Enter a URL" in a black label. The label goes away once the input is valid.
@@ -31,7 +31,8 @@ Run `npm run dev` and open the site. Check these in a desktop window and again a
 - [ ] L, M, Q and H are square toggles, and each changes the one-line explanation.
 - [ ] Each preset changes the colors, the level and the margin. Editing one of those afterwards sets the label to Custom. Changing the size does not.
 - [ ] The small preview at the top of the drawer updates immediately when you change size, either color, error correction or margin. With no valid input it says "Enter valid content to see your QR code".
-- [ ] Style changes show up in both previews, in the next modal and in the downloaded file. Open the PNG: its pixel width and height equal the Size setting. Scan it with a phone; it opens the same content you typed.
+- [ ] Style changes show up in both previews, in the next modal and in the downloaded file. The PNG pixel size matches the "Exports at" line under the code. It can be a little under the Size setting so each square is a whole number of pixels. Scan it with a phone; it opens the same content you typed.
+- [ ] With the settings left at their defaults (size 1024, error correction Q, margin 4, black on white), generate a code and download the PNG. Open the file on a computer at 100% zoom. Scan it with a phone from about 20 to 30 cm. It should read on the first try.
 - [ ] An entry appears in Recent after each successful Generate. A Wi-Fi entry shows "password hidden". Clicking an entry restores the type, inputs and style and closes the drawer. Delete and Clear all work. The list survives a refresh.
 
 ## Warnings

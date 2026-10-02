@@ -9,8 +9,8 @@ export const ERROR_LEVELS = [
 ]
 
 export const DEFAULT_SETTINGS = {
-  size: 256,
-  level: 'M',
+  size: 1024,
+  level: 'Q',
   fgColor: '#000000',
   bgColor: '#ffffff',
   margin: 4,

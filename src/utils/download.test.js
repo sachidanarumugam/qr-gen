@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildQrFilename } from './download.js'
+import { buildQrFilename, downloadQrPng } from './download.js'
 
 describe('buildQrFilename', () => {
   const date = new Date(2026, 9, 1, 14, 5, 9)
@@ -16,5 +16,22 @@ describe('buildQrFilename', () => {
     expect(buildQrFilename('email', date)).toBe('qr-email-20261001-140509.png')
     expect(buildQrFilename('phone', date)).toBe('qr-phone-20261001-140509.png')
     expect(buildQrFilename('text', date)).toBe('qr-text-20261001-140509.png')
+  })
+})
+
+describe('downloadQrPng', () => {
+  it('encodes the preview canvas itself and does not resize it', () => {
+    const canvas = {
+      width: 1023,
+      height: 1023,
+      toBlob(callback, type) {
+        expect(this).toBe(canvas)
+        expect(type).toBe('image/png')
+        expect(canvas.width).toBe(1023)
+        expect(canvas.height).toBe(1023)
+        callback(null)
+      },
+    }
+    downloadQrPng(canvas, 'qr-url-20261002-120000.png')
   })
 })

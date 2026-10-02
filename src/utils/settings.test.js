@@ -12,7 +12,11 @@ import {
 
 describe('defaults', () => {
   it('match the spec', () => {
-    expect(DEFAULT_SETTINGS).toEqual({ size: 256, level: 'M', fgColor: '#000000', bgColor: '#ffffff', margin: 4 })
+    expect(DEFAULT_SETTINGS).toEqual({ size: 1024, level: 'Q', fgColor: '#000000', bgColor: '#ffffff', margin: 4 })
+    expect(SIZE_LIMITS).toEqual({ min: 128, max: 1024 })
+    expect(describeLevel(DEFAULT_SETTINGS.level)).toBe(
+      'Quartile (Q): the code still scans if about 25% of it is damaged or covered.',
+    )
   })
 })
 

@@ -21,21 +21,25 @@ describe('PRESETS', () => {
 })
 
 describe('findPresetId', () => {
-  it('matches the default settings to Classic', () => {
-    expect(findPresetId(DEFAULT_SETTINGS)).toBe('classic')
+  it('leaves the defaults as Custom, because the default level is Q', () => {
+    expect(findPresetId(DEFAULT_SETTINGS)).toBeNull()
+  })
+
+  it('matches Classic for black on white at level M', () => {
+    expect(findPresetId({ ...DEFAULT_SETTINGS, level: 'M' })).toBe('classic')
   })
 
   it('returns null once any preset field differs', () => {
-    expect(findPresetId({ ...DEFAULT_SETTINGS, margin: 3 })).toBeNull()
-    expect(findPresetId({ ...DEFAULT_SETTINGS, fgColor: '#123456' })).toBeNull()
+    expect(findPresetId({ ...DEFAULT_SETTINGS, level: 'M', margin: 3 })).toBeNull()
+    expect(findPresetId({ ...DEFAULT_SETTINGS, level: 'M', fgColor: '#123456' })).toBeNull()
   })
 
   it('ignores size, because presets do not set it', () => {
-    expect(findPresetId({ ...DEFAULT_SETTINGS, size: 1024 })).toBe('classic')
+    expect(findPresetId({ ...DEFAULT_SETTINGS, level: 'M', size: 128 })).toBe('classic')
   })
 
   it('matches a preset regardless of hex letter case', () => {
-    expect(findPresetId({ ...DEFAULT_SETTINGS, fgColor: '#141414', bgColor: '#F4F1EA' })).toBe('newsprint')
+    expect(findPresetId({ ...DEFAULT_SETTINGS, level: 'M', fgColor: '#141414', bgColor: '#F4F1EA' })).toBe('newsprint')
   })
 })
 

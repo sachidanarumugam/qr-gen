@@ -39,7 +39,7 @@ export default function ResultModal({ payload, type, typeLabel, settings, onClos
 
   function handleDownload() {
     if (!canvasRef.current) return
-    downloadQrPng(canvasRef.current, settings.size, buildQrFilename(type, new Date()))
+    downloadQrPng(canvasRef.current, buildQrFilename(type, new Date()))
   }
 
   function handleOverlayMouseDown(event) {
