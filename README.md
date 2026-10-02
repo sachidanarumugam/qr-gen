@@ -31,7 +31,7 @@ npm run build
 - One screen: a headline, one big input with a Generate button, and chips for the type (URL, Text, Email, Phone, Wi-Fi). Email and Wi-Fi expand extra fields under the chips. Each type keeps its own inputs when you switch.
 - A live preview appears under the form as soon as the input is valid, and a smaller one sits at the top of the settings drawer. Both redraw as you type and as you change any setting.
 - Generate is greyed out until the input is valid. Clicking it early shakes the bar and says what is wrong.
-- Clicking Generate runs a short "creating" loader, then opens a result modal with the QR code, a Download PNG button and Create another. Close it with the X, Escape, or a click outside. Focus stays inside the modal and returns to Generate when it closes.
+- Clicking Generate runs a short "creating" loader, then offers an optional mini-game: Tic-tac-toe, Memory match, or Quick tap. Skip, or turn mini-games off in settings, and the result modal opens with the QR code, a Download PNG button and Create another. Close it with the X, Escape, or a click outside. Focus stays inside the modal and returns to Generate when it closes.
 - A settings drawer (the round button, top right) holds size (128 to 1024 px), foreground and background color, error correction (L, M, Q, H) and margin (0 to 10 modules), plus six presets and the recent list.
 - PNG download at the selected size, named `qr-<type>-<YYYYMMDD-HHmmss>.png`.
 - Scan warnings in the modal for low contrast, inverted colors, a small size, a short quiet zone, and a long payload on a small code. Warnings do not block the download.
@@ -80,3 +80,15 @@ The same screen at a phone width:
 The result modal after pressing Generate:
 
 ![Result modal](docs/screenshots/result.png)
+
+The optional game offer:
+
+![Game picker](docs/screenshots/game-picker.png)
+
+Tic-tac-toe, Memory match, and Quick tap:
+
+![Tic-tac-toe](docs/screenshots/game-tictactoe.png)
+
+![Memory match](docs/screenshots/game-memory.png)
+
+![Quick tap](docs/screenshots/game-quicktap.png)
