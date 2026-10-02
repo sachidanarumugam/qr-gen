@@ -39,6 +39,13 @@ describe('isRecentEntry', () => {
     expect(isRecentEntry(entry())).toBe(true)
   })
 
+  it('accepts a code saved before patterns, gradients and logos existed', () => {
+    const old = entry({
+      settings: { size: 256, level: 'M', fgColor: '#000000', bgColor: '#ffffff', margin: 4 },
+    })
+    expect(isRecentEntry(old)).toBe(true)
+  })
+
   it('rejects a missing field, a bad level, and an unparseable date', () => {
     expect(isRecentEntry(entry({ fields: { url: 1 } }))).toBe(false)
     expect(isRecentEntry(entry({ settings: { ...DEFAULT_SETTINGS, level: 'X' } }))).toBe(false)

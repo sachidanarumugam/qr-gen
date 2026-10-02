@@ -1,7 +1,9 @@
 import SegmentedControl from './SegmentedControl.jsx'
 import RangeField from './RangeField.jsx'
 import ColorField from './ColorField.jsx'
-import { ERROR_LEVELS, MARGIN_LIMITS, SIZE_LIMITS, describeLevel } from '../utils/settings.js'
+import CheckboxField from './CheckboxField.jsx'
+import LogoField from './LogoField.jsx'
+import { ERROR_LEVELS, MARGIN_LIMITS, QR_PATTERNS, SIZE_LIMITS, describeLevel } from '../utils/settings.js'
 import './StyleControls.css'
 
 const LEVEL_OPTIONS = ERROR_LEVELS.map((level) => ({ value: level.value, label: level.value }))
@@ -46,6 +48,24 @@ export default function StyleControls({ settings, onChange }) {
         limits={MARGIN_LIMITS}
         onChange={(value) => onChange('margin', value)}
       />
+      <div>
+        <SegmentedControl
+          legend="Pattern"
+          options={QR_PATTERNS}
+          value={settings.pattern || 'square'}
+          onChange={(value) => onChange('pattern', value)}
+        />
+        <p className="level-help">The three corner eyes stay square so a phone can still find the code.</p>
+      </div>
+      <CheckboxField label="Gradient" checked={settings.gradient === true} onChange={(value) => onChange('gradient', value)} />
+      {settings.gradient ? (
+        <ColorField
+          label="Gradient end"
+          value={settings.gradientEnd}
+          onChange={(value) => onChange('gradientEnd', value)}
+        />
+      ) : null}
+      <LogoField logo={settings.logo || ''} onChange={(value) => onChange('logo', value)} />
     </div>
   )
 }

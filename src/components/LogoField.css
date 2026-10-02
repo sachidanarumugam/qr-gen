@@ -1,0 +1,24 @@
+.logo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border: 3px solid var(--black);
+  background: var(--white);
+}
+
+.logo-pick {
+  position: relative;
+  cursor: pointer;
+}
+
+.logo-row .btn {
+  min-height: 48px;
+  padding: 0 16px;
+}

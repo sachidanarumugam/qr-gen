@@ -44,9 +44,12 @@ describe('findPresetId', () => {
 })
 
 describe('applyPreset', () => {
-  it('copies the preset colors, level and margin, and keeps the size', () => {
-    const next = applyPreset({ ...DEFAULT_SETTINGS, size: 512 }, 'poster')
-    expect(next).toEqual({ size: 512, fgColor: '#000000', bgColor: '#ffffff', level: 'H', margin: 6 })
+  it('copies the preset colors, level and margin, keeps the size, and clears a logo or pattern', () => {
+    const next = applyPreset(
+      { ...DEFAULT_SETTINGS, size: 512, pattern: 'dots', gradient: true, logo: 'data:image/png;base64,aa' },
+      'poster',
+    )
+    expect(next).toEqual({ ...DEFAULT_SETTINGS, size: 512, level: 'H', margin: 6 })
   })
 
   it('returns null for an unknown id', () => {

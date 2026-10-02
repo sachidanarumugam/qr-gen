@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react'
-import { Download, X } from 'lucide-react'
+import { Copy, Download, X } from 'lucide-react'
 import QRPreview from './QRPreview.jsx'
 import ScanWarnings from './ScanWarnings.jsx'
 import useFocusTrap from '../hooks/useFocusTrap.js'
-import { buildQrFilename, downloadQrPng } from '../utils/download.js'
+import { buildQrFilename, copyQrPng, downloadQrPng, downloadQrSvg } from '../utils/download.js'
+import { buildQrSvg, modelFromMarkup } from '../utils/qrExport.js'
 import './ResultModal.css'
 
 const EXIT_MS = 200
@@ -28,6 +29,8 @@ export default function ResultModal({ payload, type, typeLabel, settings, onClos
   const downloadRef = useRef(null)
   const canvasRef = useRef(null)
   const [closing, setClosing] = useState(false)
+  const [copied, setCopied] = useState('')
+  const copiedTimer = useRef(null)
 
   function requestClose(reason) {
     if (closing) return
@@ -37,9 +40,46 @@ export default function ResultModal({ payload, type, typeLabel, settings, onClos
 
   useFocusTrap(dialogRef, !closing, () => requestClose('dismiss'), downloadRef)
 
+  function svgMarkup() {
+    const svg = canvasRef.current?.closest('.qr-frame')?.querySelector('.qr-source svg')
+    if (!svg) return ''
+    return buildQrSvg(modelFromMarkup(svg.outerHTML, settings.margin), settings)
+  }
+
   function handleDownload() {
     if (!canvasRef.current) return
     downloadQrPng(canvasRef.current, buildQrFilename(type, new Date()))
+  }
+
+  function handleSvg() {
+    const markup = svgMarkup()
+    if (!markup) return
+    downloadQrSvg(markup, buildQrFilename(type, new Date(), 'svg'))
+  }
+
+  async function handleCopy() {
+    if (!canvasRef.current) return
+    try {
+      const copiedImage = await copyQrPng(canvasRef.current)
+      if (copiedImage) {
+        showCopied('Copied')
+        return
+      }
+    } catch {
+      // Fall through to copying the text the code contains.
+    }
+    try {
+      await navigator.clipboard.writeText(payload)
+      showCopied('Copied text')
+    } catch {
+      showCopied('Copy failed')
+    }
+  }
+
+  function showCopied(text) {
+    setCopied(text)
+    window.clearTimeout(copiedTimer.current)
+    copiedTimer.current = window.setTimeout(() => setCopied(''), 1600)
   }
 
   function handleOverlayMouseDown(event) {
@@ -106,6 +146,14 @@ export default function ResultModal({ payload, type, typeLabel, settings, onClos
           <button ref={downloadRef} type="button" className="btn btn-black pressable" onClick={handleDownload}>
             <Download size={22} strokeWidth={3} aria-hidden="true" />
             Download PNG
+          </button>
+          <button type="button" className="btn btn-white pressable" onClick={handleSvg}>
+            <Download size={22} strokeWidth={3} aria-hidden="true" />
+            Download SVG
+          </button>
+          <button type="button" className="btn btn-white pressable" onClick={handleCopy}>
+            <Copy size={22} strokeWidth={3} aria-hidden="true" />
+            <span aria-live="polite">{copied || 'Copy'}</span>
           </button>
           <button type="button" className="btn btn-white pressable" onClick={() => requestClose('another')}>
             Create another

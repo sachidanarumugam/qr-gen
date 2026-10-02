@@ -11,7 +11,7 @@ import ResultModal from './components/ResultModal.jsx'
 import QRPreview from './components/QRPreview.jsx'
 import LivePreview from './components/LivePreview.jsx'
 import { EMPTY_FIELDS, QR_TYPES, buildPayload } from './utils/payloads.js'
-import { DEFAULT_SETTINGS } from './utils/settings.js'
+import { DEFAULT_SETTINGS, normalizeSettings } from './utils/settings.js'
 import { applyPreset, findPresetId } from './utils/presets.js'
 import { validateFields } from './utils/validators.js'
 import { addRecent, loadRecent, removeRecent, saveRecent } from './utils/storage.js'
@@ -99,8 +99,9 @@ export default function App() {
   function restoreEntry(entry) {
     setType(entry.type)
     setFieldsByType((current) => ({ ...current, [entry.type]: entry.fields }))
-    setSettings(entry.settings)
-    setPresetId(findPresetId(entry.settings))
+    const restored = normalizeSettings(entry.settings)
+    setSettings(restored)
+    setPresetId(findPresetId(restored))
     setAttempted(false)
     setTooLong(false)
     closeDrawer()

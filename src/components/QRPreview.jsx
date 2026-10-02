@@ -21,10 +21,29 @@ function QrCanvas({ payload, typeLabel, settings, canvasRef }) {
   useLayoutEffect(() => {
     const svg = svgRef.current
     const canvas = localRef.current
-    if (!svg || !canvas) return
+    if (!svg || !canvas) return undefined
+    let cancel = false
     const exported = buildQrExport(modelFromMarkup(svg.outerHTML, settings.margin), settings)
-    paintQrCanvas(canvas, exported.model, exported.geometry, settings.fgColor, settings.bgColor)
+    const paint = (logoImage) => {
+      if (cancel) return
+      paintQrCanvas(canvas, exported.model, exported.geometry, settings.fgColor, settings.bgColor, {
+        pattern: settings.pattern,
+        gradient: settings.gradient,
+        gradientEnd: settings.gradientEnd,
+        logoImage,
+      })
+    }
+    paint(null)
     setLabel(exported.label)
+    if (!settings.logo) return () => {
+      cancel = true
+    }
+    const image = new Image()
+    image.onload = () => paint(image)
+    image.src = settings.logo
+    return () => {
+      cancel = true
+    }
   }, [payload, settings])
 
   return (

@@ -12,6 +12,10 @@ describe('buildQrFilename', () => {
     expect(buildQrFilename('wifi', new Date(2026, 0, 2, 3, 4, 5))).toBe('qr-wifi-20260102-030405.png')
   })
 
+  it('uses svg when that extension is asked for', () => {
+    expect(buildQrFilename('url', date, 'svg')).toBe('qr-url-20261001-140509.svg')
+  })
+
   it('keeps the type id, so the name stays safe as a filename', () => {
     expect(buildQrFilename('email', date)).toBe('qr-email-20261001-140509.png')
     expect(buildQrFilename('phone', date)).toBe('qr-phone-20261001-140509.png')

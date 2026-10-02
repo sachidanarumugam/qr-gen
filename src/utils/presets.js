@@ -1,3 +1,5 @@
+import { DEFAULT_SETTINGS } from './settings.js'
+
 // A preset changes the look of the code, not its size. Size stays where the user set it.
 export const PRESETS = [
   { id: 'classic', name: 'Classic', fgColor: '#000000', bgColor: '#ffffff', level: 'M', margin: 4 },
@@ -32,5 +34,9 @@ export function applyPreset(settings, presetId) {
     bgColor: preset.bgColor,
     level: preset.level,
     margin: preset.margin,
+    pattern: DEFAULT_SETTINGS.pattern,
+    gradient: DEFAULT_SETTINGS.gradient,
+    gradientEnd: DEFAULT_SETTINGS.gradientEnd,
+    logo: DEFAULT_SETTINGS.logo,
   }
 }

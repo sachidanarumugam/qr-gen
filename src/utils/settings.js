@@ -8,12 +8,41 @@ export const ERROR_LEVELS = [
   { value: 'H', name: 'High', recovery: 30 },
 ]
 
+export const QR_PATTERNS = [
+  { value: 'square', label: 'Square' },
+  { value: 'rounded', label: 'Rounded' },
+  { value: 'dots', label: 'Dots' },
+  { value: 'diamond', label: 'Diamond' },
+]
+
 export const DEFAULT_SETTINGS = {
   size: 1024,
   level: 'Q',
   fgColor: '#000000',
   bgColor: '#ffffff',
   margin: 4,
+  pattern: 'square',
+  gradient: false,
+  gradientEnd: '#0000ff',
+  logo: '',
+}
+
+export function qrPattern(settings) {
+  const pattern = settings?.pattern
+  return QR_PATTERNS.some((item) => item.value === pattern) ? pattern : 'square'
+}
+
+// Old saved codes predate patterns, gradients and logos. Missing fields use the defaults.
+export function normalizeSettings(settings) {
+  const source = settings && typeof settings === 'object' ? settings : {}
+  return {
+    ...DEFAULT_SETTINGS,
+    ...source,
+    pattern: qrPattern(source),
+    gradient: source.gradient === true,
+    gradientEnd: normalizeHex(typeof source.gradientEnd === 'string' ? source.gradientEnd : '') || DEFAULT_SETTINGS.gradientEnd,
+    logo: typeof source.logo === 'string' ? source.logo : '',
+  }
 }
 
 const HEX_COLOR = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i

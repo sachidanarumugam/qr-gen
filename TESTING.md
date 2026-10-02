@@ -34,6 +34,8 @@ Run `npm run dev` and open the site. Check these in a desktop window and again a
 - [ ] Style changes show up in both previews, in the next modal and in the downloaded file. The PNG pixel size matches the "Exports at" line under the code. It can be a little under the Size setting so each square is a whole number of pixels. Scan it with a phone; it opens the same content you typed.
 - [ ] With the settings left at their defaults (size 1024, error correction Q, margin 4, black on white), generate a code and download the PNG. Open the file on a computer at 100% zoom. Scan it with a phone from about 20 to 30 cm. It should read on the first try.
 - [ ] An entry appears in Recent after each successful Generate. A Wi-Fi entry shows "password hidden". Clicking an entry restores the type, inputs and style and closes the drawer. Delete and Clear all work. The list survives a refresh.
+- [ ] Pattern offers Square, Rounded, Dots and Diamond. The three corner eyes stay square. Gradient adds a second color. Add logo places a picture in the center, and Remove clears it. Square with gradient off and no logo is unchanged.
+- [ ] In the result modal, Download SVG saves `qr-<type>-<date>-<time>.svg` of the same code. Copy puts the PNG on the clipboard (or the text, if the browser blocks image copy). Night mode is the switch at the top of the drawer.
 
 ## Warnings
 

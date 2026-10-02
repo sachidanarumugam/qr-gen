@@ -3,7 +3,17 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { QRCodeSVG } from 'qrcode.react'
 import { DEFAULT_SETTINGS } from './settings.js'
-import { MIN_MODULE_PX, buildQrExport, exportGeometry, exportLabel, modelFromMarkup, paintQrCanvas } from './qrExport.js'
+import {
+  MIN_MODULE_PX,
+  buildQrExport,
+  buildQrSvg,
+  exportGeometry,
+  exportLabel,
+  logoModules,
+  modelFromMarkup,
+  moduleRole,
+  paintQrCanvas,
+} from './qrExport.js'
 
 function readExport(value, settings) {
   const markup = renderToStaticMarkup(
@@ -148,5 +158,52 @@ describe('exported canvas', () => {
     expect(DEFAULT_SETTINGS.bgColor).toBe('#ffffff')
     expect(rects[0].fill).toBe('#ffffff')
     expect(rects.slice(1).every((rect) => rect.fill === '#000000')).toBe(true)
+  })
+})
+
+describe('module roles and logo box', () => {
+  it('keeps the corner eyes and timing lines, and parks the logo in the center', () => {
+    expect(moduleRole(4, 4, 33, 4)).toBe('finder')
+    expect(moduleRole(11, 10, 33, 4)).toBe('timing')
+    expect(moduleRole(16, 16, 33, 4)).toBe('data')
+    const box = logoModules(33, 4)
+    expect(box.origin).toBeGreaterThan(4 + 7)
+    expect(box.origin + box.span).toBeLessThan(33 - 4 - 7)
+  })
+})
+
+describe('buildQrSvg', () => {
+  it('matches the canvas pixel size and stays square by default', () => {
+    const exported = readExport(SHORT_URL, DEFAULT_SETTINGS)
+    const markup = buildQrSvg(exported.model, DEFAULT_SETTINGS)
+    expect(markup).toContain(`width="${exported.geometry.exportSize}"`)
+    expect(markup).toContain(`viewBox="0 0 ${exported.model.moduleCount} ${exported.model.moduleCount}"`)
+    expect(exported.geometry.exportSize % exported.model.moduleCount).toBe(0)
+    expect(markup).not.toContain('<circle')
+    expect(markup).not.toContain('<image')
+  })
+
+  it('draws data modules as dots and the corner eyes as squares', () => {
+    const settings = { ...DEFAULT_SETTINGS, pattern: 'dots' }
+    const exported = readExport(SHORT_URL, settings)
+    const markup = buildQrSvg(exported.model, settings)
+    expect(markup).toContain('<circle')
+    expect(markup).toContain(`<rect x="${settings.margin}" y="${settings.margin}" width="1" height="1"`)
+  })
+
+  it('includes the gradient and the logo', () => {
+    const settings = {
+      ...DEFAULT_SETTINGS,
+      gradient: true,
+      gradientEnd: '#0000ff',
+      logo: 'data:image/png;base64,aaaa',
+    }
+    const exported = readExport(SHORT_URL, settings)
+    const markup = buildQrSvg(exported.model, settings)
+    expect(markup).toContain('linearGradient')
+    expect(markup).toContain('stop-color="#000000"')
+    expect(markup).toContain('stop-color="#0000ff"')
+    expect(markup).toContain('<image')
+    expect(markup).toContain('data:image/png;base64,aaaa')
   })
 })

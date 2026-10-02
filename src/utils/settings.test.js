@@ -7,16 +7,42 @@ import {
   clampInt,
   describeLevel,
   normalizeHex,
+  normalizeSettings,
   parseIntInRange,
 } from './settings.js'
 
 describe('defaults', () => {
   it('match the spec', () => {
-    expect(DEFAULT_SETTINGS).toEqual({ size: 1024, level: 'Q', fgColor: '#000000', bgColor: '#ffffff', margin: 4 })
+    expect(DEFAULT_SETTINGS).toEqual({
+      size: 1024,
+      level: 'Q',
+      fgColor: '#000000',
+      bgColor: '#ffffff',
+      margin: 4,
+      pattern: 'square',
+      gradient: false,
+      gradientEnd: '#0000ff',
+      logo: '',
+    })
     expect(SIZE_LIMITS).toEqual({ min: 128, max: 1024 })
     expect(describeLevel(DEFAULT_SETTINGS.level)).toBe(
       'Quartile (Q): the code still scans if about 25% of it is damaged or covered.',
     )
+  })
+})
+
+describe('normalizeSettings', () => {
+  it('fills pattern, gradient and logo when an older saved code omits them', () => {
+    expect(normalizeSettings({ size: 256, level: 'M', fgColor: '#000000', bgColor: '#ffffff', margin: 4 })).toEqual({
+      ...DEFAULT_SETTINGS,
+      size: 256,
+      level: 'M',
+    })
+  })
+
+  it('keeps a chosen pattern and drops an unknown one', () => {
+    expect(normalizeSettings({ ...DEFAULT_SETTINGS, pattern: 'dots' }).pattern).toBe('dots')
+    expect(normalizeSettings({ ...DEFAULT_SETTINGS, pattern: 'sparkle' }).pattern).toBe('square')
   })
 })
 

@@ -30,8 +30,8 @@ npm run build
 - A live preview appears under the form as soon as the input is valid, and a smaller one sits at the top of the settings drawer. Both redraw as you type and as you change any setting.
 - Generate is greyed out until the input is valid. Clicking it early shakes the bar and says what is wrong.
 - Clicking Generate runs a short "creating" loader, then offers an optional mini-game: Tic-tac-toe, Memory match, or Quick tap. Skip, or turn mini-games off in settings, and the result modal opens with the QR code, a Download PNG button and Create another. Close it with the X, Escape, or a click outside. Focus stays inside the modal and returns to Generate when it closes.
-- A settings drawer (the round button, top right) holds size (128 to 1024 px), foreground and background color, error correction (L, M, Q, H) and margin (0 to 10 modules), plus six presets and the recent list.
-- PNG download at the selected size, named `qr-<type>-<YYYYMMDD-HHmmss>.png`.
+- A settings drawer (the round button, top right) holds size (128 to 1024 px), foreground and background color, a gradient, error correction (L, M, Q, H), margin (0 to 10 modules), module pattern (square, rounded, dots, diamond) and an optional center logo, plus six presets, night mode and the recent list.
+- PNG and SVG download, named `qr-<type>-<YYYYMMDD-HHmmss>.png` or `.svg`. Copy puts the PNG on the clipboard. The default pattern is square, with no gradient and no logo.
 - Scan warnings in the modal for low contrast, inverted colors, a small size, a short quiet zone, and a long payload on a small code. Warnings do not block the download.
 - Content that is too long for a QR code is caught after the loader, with a message under the input.
 - Up to 10 recent codes, saved in this browser only when you press Generate, restored or deleted from the drawer. Wi-Fi passwords are hidden in the list.
@@ -42,7 +42,7 @@ The look is neo-brutalist: four colors only (blue `#0000FF`, lime `#CCFF00`, bla
 
 The panels (drawer and modal) are lime or white, so their focus ring is black. Everywhere else it is a 3px white outline. With `prefers-reduced-motion` on, the marquee, floating shapes, rotating badge, confetti and spring pop are replaced by simple fades.
 
-The QR code is drawn on a canvas. `qrcode.react` scales that canvas by the screen's pixel density, so a direct export would not match the size you chose. The download copies the canvas onto a new one of the selected size, then saves that file.
+The QR code is drawn on a canvas, one whole pixel per module edge, and the PNG is that same canvas. The SVG download is the same modules as vectors. Rounded, dot and diamond patterns leave the three corner eyes square. A logo sits in the center on a pad of the background color.
 
 `boostLevel` is turned off. Otherwise the library can raise the error-correction level above the one you selected.
 
