@@ -6,7 +6,7 @@
 }
 
 .headline {
-  font-size: clamp(2.25rem, 10vw, 9rem);
+  font-size: clamp(1.91rem, 8.5vw, 7.65rem);
   line-height: 1;
   letter-spacing: -0.04em;
 }
