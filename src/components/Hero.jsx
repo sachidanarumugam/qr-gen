@@ -19,11 +19,11 @@ export default function Hero() {
     <div className="hero">
       <h1 className="headline">
         <span className="headline-line">
-          <Words text="Free QR codes." start={0} />
+          <Words text="QR codes." start={0} />
         </span>
         <span className="headline-line">
           <span className="pop">
-            <Words text="No cap." start={3} />
+            <Words text="Not boring." start={2} />
           </span>
         </span>
       </h1>
