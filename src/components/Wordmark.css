@@ -1,0 +1,33 @@
+.wordmark {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border: var(--border);
+  background: var(--white);
+  color: var(--black);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  box-shadow: var(--sh) var(--sh) 0 var(--lime);
+  transform: rotate(-3deg);
+}
+
+.wordmark-mark {
+  width: 18px;
+  height: 18px;
+  border: var(--border);
+  background: var(--lime);
+}
+
+@media (max-width: 480px) {
+  .wordmark {
+    top: 14px;
+    left: 14px;
+    font-size: 1rem;
+  }
+}

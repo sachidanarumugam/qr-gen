@@ -40,7 +40,7 @@ export default function ColorField({ label, value, onChange }) {
         <input id={pickerId} className="swatch" type="color" value={value} onChange={handlePicker} />
         <input
           id={textId}
-          className="control mono"
+          className="control"
           type="text"
           value={draft ?? value}
           maxLength={7}

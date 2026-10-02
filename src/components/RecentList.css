@@ -1,79 +1,68 @@
 .recent-note {
-  font-size: var(--text-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .recent-list {
   display: grid;
-  gap: var(--space-2);
+  gap: 12px;
   margin: 0;
-  padding: 0;
+  padding: 0 6px 6px 0;
   list-style: none;
 }
 
 .recent-row {
   display: flex;
-  gap: var(--space-2);
+  gap: 8px;
   min-width: 0;
 }
 
 .recent-open,
 .recent-delete {
-  position: relative;
   border: var(--border);
-  border-radius: var(--radius);
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--white);
+  color: var(--black);
   font: inherit;
-  cursor: pointer;
-}
-
-.recent-open::before,
-.recent-delete::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--ink);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--transition);
-}
-
-.recent-open:hover::before,
-.recent-delete:hover::before {
-  opacity: 0.08;
+  --sh: 4px;
 }
 
 .recent-open {
   flex: 1;
   min-width: 0;
   min-height: var(--tap-target);
-  padding: var(--space-2) 12px;
+  padding: 8px 12px;
   text-align: left;
 }
 
 .recent-type {
   display: block;
-  font-size: var(--text-sm);
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  font-weight: 800;
   text-transform: uppercase;
 }
 
 .recent-summary {
   display: block;
   overflow: hidden;
+  font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .recent-time {
   display: block;
-  font-size: var(--text-sm);
+  font-size: 0.8rem;
 }
 
 .recent-delete {
+  display: grid;
+  place-items: center;
   flex: none;
-  width: var(--tap-target);
-  height: var(--tap-target);
+  width: 48px;
   padding: 0;
+}
+
+.recent-delete:hover:not(:disabled) {
+  background: var(--black);
+  color: var(--lime);
 }

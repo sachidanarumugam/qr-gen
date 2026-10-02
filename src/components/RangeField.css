@@ -1,7 +1,7 @@
 .range-row {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: 14px;
 }
 
 .range-number {
@@ -20,46 +20,39 @@
   cursor: pointer;
 }
 
-/* Square thumb on a bordered track. The input stays 44px tall so the touch target is large. */
+/* Thick black track with a square lime thumb. */
 .range::-webkit-slider-runnable-track {
-  height: 10px;
-  border: var(--border);
+  height: 14px;
   border-radius: 0;
-  background: var(--paper);
-}
-
-.range::-moz-range-track {
-  height: 6px;
-  border: var(--border);
-  border-radius: 0;
-  background: var(--paper);
+  background: var(--black);
 }
 
 .range::-webkit-slider-thumb {
   appearance: none;
-  width: 24px;
-  height: 28px;
-  margin-top: -11px;
+  width: 26px;
+  height: 34px;
+  margin-top: -10px;
   border: var(--border);
   border-radius: 0;
-  background: var(--ink);
-  transition: background-color var(--transition);
+  background: var(--lime);
+  transition: transform var(--transition);
+}
+
+.range::-moz-range-track {
+  height: 14px;
+  border-radius: 0;
+  background: var(--black);
 }
 
 .range::-moz-range-thumb {
   box-sizing: border-box;
-  width: 24px;
-  height: 28px;
+  width: 26px;
+  height: 34px;
   border: var(--border);
   border-radius: 0;
-  background: var(--ink);
-  transition: background-color var(--transition);
+  background: var(--lime);
 }
 
-.range:active::-webkit-slider-thumb {
-  background: var(--accent);
-}
-
-.range:active::-moz-range-thumb {
-  background: var(--accent);
+.range:hover::-webkit-slider-thumb {
+  transform: scale(1.1);
 }

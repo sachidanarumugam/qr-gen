@@ -8,7 +8,7 @@ export default function RecentList({ entries, onRestore, onDelete, onClear }) {
     <div className="stack">
       <p className="recent-note">Saved only in this browser.</p>
       {entries.length === 0 ? (
-        <p>Nothing saved yet. A valid QR code is saved here shortly after you stop editing.</p>
+        <p>Nothing saved yet. Codes you generate are saved here.</p>
       ) : (
         <>
           <ul className="recent-list">
@@ -17,14 +17,14 @@ export default function RecentList({ entries, onRestore, onDelete, onClear }) {
               const summary = summarizeEntry(entry)
               return (
                 <li className="recent-row" key={entry.id}>
-                  <button type="button" className="recent-open" onClick={() => onRestore(entry)}>
+                  <button type="button" className="recent-open pressable" onClick={() => onRestore(entry)}>
                     <span className="recent-type">{typeLabel}</span>
                     <span className="recent-summary">{summary}</span>
-                    <span className="recent-time mono">{formatSavedAt(entry.createdAt)}</span>
+                    <span className="recent-time">{formatSavedAt(entry.createdAt)}</span>
                   </button>
                   <button
                     type="button"
-                    className="recent-delete"
+                    className="recent-delete pressable"
                     aria-label={`Delete saved ${typeLabel} QR code`}
                     onClick={() => onDelete(entry.id)}
                   >
@@ -34,7 +34,7 @@ export default function RecentList({ entries, onRestore, onDelete, onClear }) {
               )
             })}
           </ul>
-          <button type="button" className="button" onClick={onClear}>
+          <button type="button" className="btn btn-white pressable" onClick={onClear}>
             Clear all
           </button>
         </>

@@ -46,7 +46,7 @@ export default function RangeField({ label, unit, value, limits, onChange }) {
         </label>
         <input
           id={numberId}
-          className="control range-number mono"
+          className="control range-number"
           type="number"
           inputMode="numeric"
           min={limits.min}
@@ -57,7 +57,7 @@ export default function RangeField({ label, unit, value, limits, onChange }) {
           onBlur={handleBlur}
         />
       </div>
-      <p className="field-hint mono">
+      <p className="field-hint">
         {limits.min} to {limits.max} {unit}
       </p>
     </div>

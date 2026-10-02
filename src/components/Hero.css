@@ -1,0 +1,60 @@
+.hero {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.headline {
+  font-size: clamp(2.75rem, 10vw, 9rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.headline-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.headline-line + .headline-line {
+  margin-top: 0.12em;
+}
+
+.word {
+  display: inline-block;
+  animation: word-up 700ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
+  animation-delay: calc(var(--i) * 110ms);
+}
+
+.pop {
+  display: inline-block;
+  padding: 0.04em 0.2em 0.08em;
+  border: var(--border);
+  background: var(--lime);
+  color: var(--black);
+  box-shadow: 0.06em 0.06em 0 var(--black);
+  transform: rotate(-2deg);
+}
+
+.subtitle {
+  max-width: 44ch;
+  font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+  font-weight: 700;
+  animation: fade-up 600ms ease-out 900ms both;
+}
+
+@keyframes word-up {
+  from {
+    opacity: 0;
+    transform: translateY(70%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word,
+  .subtitle {
+    animation-name: fade-in;
+    animation-duration: 300ms;
+    animation-delay: 0ms;
+  }
+}

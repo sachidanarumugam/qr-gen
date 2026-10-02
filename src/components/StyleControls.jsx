@@ -17,8 +17,16 @@ export default function StyleControls({ settings, onChange }) {
         onChange={(value) => onChange('size', value)}
       />
       <div className="style-colors">
-        <ColorField label="Foreground color" value={settings.fgColor} onChange={(value) => onChange('fgColor', value)} />
-        <ColorField label="Background color" value={settings.bgColor} onChange={(value) => onChange('bgColor', value)} />
+        <ColorField
+          label="Foreground color"
+          value={settings.fgColor}
+          onChange={(value) => onChange('fgColor', value)}
+        />
+        <ColorField
+          label="Background color"
+          value={settings.bgColor}
+          onChange={(value) => onChange('bgColor', value)}
+        />
       </div>
       <div>
         <SegmentedControl

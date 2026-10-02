@@ -1,0 +1,236 @@
+.generate-form {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  width: min(100%, 760px);
+}
+
+/* The input and button share one bordered box so they read as a single control. */
+.bar {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  border: var(--border);
+  background: var(--white);
+  /* Lime shadow: a black one would disappear into the blue page. */
+  box-shadow: var(--sh) var(--sh) 0 var(--lime);
+  animation: fade-up 600ms ease-out 1100ms both;
+}
+
+.bar:has(.bar-input:focus-visible) {
+  outline: 3px solid var(--white);
+  outline-offset: 3px;
+}
+
+.swap {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  animation: swap-in 260ms ease-out both;
+}
+
+.bar-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 72px;
+  padding: 16px 20px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--black);
+  font: inherit;
+  font-size: clamp(1rem, 2.4vw, 1.4rem);
+  font-weight: 700;
+  outline: none;
+  resize: none;
+}
+
+.bar-input::placeholder {
+  color: var(--black);
+  opacity: 0.45;
+}
+
+.bar-button {
+  flex: none;
+  min-height: 72px;
+  border-width: 0 0 0 3px;
+  padding: 0 28px;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  --sh-color: var(--black);
+}
+
+/* Inside the bar the button has no shadow of its own to avoid doubling the bar's. */
+.bar-button.pressable {
+  box-shadow: none;
+}
+
+.bar-button.pressable:hover:not([aria-disabled='true']) {
+  transform: none;
+  background: var(--white);
+  box-shadow: inset 0 0 0 3px var(--black);
+}
+
+.bar-button.pressable:active:not([aria-disabled='true']) {
+  transform: none;
+  background: var(--black);
+  color: var(--lime);
+  box-shadow: none;
+}
+
+.bar-button:focus-visible {
+  outline-color: var(--black);
+  outline-offset: -8px;
+}
+
+.bar-wrap {
+  width: 100%;
+}
+
+.bar-wrap.is-shaking {
+  animation: shake 450ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.error-tag {
+  display: none;
+  max-width: 100%;
+  padding: 8px 14px;
+  border: 3px solid var(--lime);
+  background: var(--black);
+  color: var(--lime);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: left;
+  transform: rotate(-1deg);
+  overflow-wrap: anywhere;
+}
+
+.error-tag.is-visible {
+  display: block;
+  animation: swap-in 200ms ease-out both;
+}
+
+.generate-form .segmented {
+  animation: fade-up 600ms ease-out 1250ms both;
+}
+
+.generate-form .segments {
+  justify-content: center;
+}
+
+.extras {
+  --label-color: var(--lime);
+  display: grid;
+  gap: 14px;
+  margin: 6px 6px 8px;
+  padding: 18px;
+  border: 3px solid var(--lime);
+  text-align: left;
+}
+
+.generate-form .collapse {
+  width: 100%;
+}
+
+.generate-form .collapse-inner {
+  /* Room for focus outlines that would otherwise be clipped by the animation. */
+  padding: 4px;
+  margin: -4px;
+}
+
+@keyframes swap-in {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-3px);
+  }
+  20%,
+  80% {
+    transform: translateX(6px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-10px);
+  }
+  40%,
+  60% {
+    transform: translateX(10px);
+  }
+}
+
+@media (max-width: 640px) {
+  .bar {
+    flex-direction: column;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    gap: 16px;
+  }
+
+  .swap {
+    border: var(--border);
+    background: var(--white);
+    box-shadow: var(--sh) var(--sh) 0 var(--lime);
+  }
+
+  .bar:has(.bar-input:focus-visible) {
+    outline: 0;
+  }
+
+  .swap:has(.bar-input:focus-visible) {
+    outline: 3px solid var(--white);
+    outline-offset: 3px;
+  }
+
+  .bar-button {
+    width: 100%;
+    border-width: 3px;
+    --sh-color: var(--black);
+  }
+
+  .bar-button.pressable {
+    box-shadow: var(--sh) var(--sh) 0 var(--sh-color);
+  }
+
+  .bar-button.pressable:hover:not([aria-disabled='true']) {
+    transform: translate(-3px, -3px);
+    background: var(--lime);
+    box-shadow: calc(var(--sh) + 3px) calc(var(--sh) + 3px) 0 var(--sh-color);
+  }
+
+  .bar-button.pressable:active:not([aria-disabled='true']) {
+    transform: translate(var(--sh), var(--sh));
+    background: var(--lime);
+    color: var(--black);
+    box-shadow: 0 0 0 var(--sh-color);
+  }
+
+  .bar-button:focus-visible {
+    outline-color: var(--white);
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .generate-form .segmented {
+    animation-name: fade-in;
+    animation-duration: 300ms;
+    animation-delay: 0ms;
+  }
+
+  .swap,
+  .error-tag.is-visible {
+    animation-name: fade-in;
+  }
+
+  .bar-wrap.is-shaking {
+    animation: none;
+  }
+}

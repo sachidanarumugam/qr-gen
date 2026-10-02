@@ -1,7 +1,16 @@
 import { useId } from 'react'
 import './Field.css'
 
-export default function TextField({ label, value, onChange, onBlur, error = '', multiline = false, hint, ...inputProps }) {
+export default function TextField({
+  label,
+  value,
+  onChange,
+  onBlur,
+  error = '',
+  multiline = false,
+  hint,
+  ...inputProps
+}) {
   const id = useId()
   const hintId = `${id}-hint`
   const errorId = `${id}-error`

@@ -3,14 +3,6 @@ import QRErrorBoundary from './QRErrorBoundary.jsx'
 import './QRPreview.css'
 
 export default function QRPreview({ payload, typeLabel, settings, canvasRef, onFailure }) {
-  if (!payload) {
-    return (
-      <div className="qr-empty" role="status">
-        Enter valid content to see your QR code
-      </div>
-    )
-  }
-
   return (
     <QRErrorBoundary
       resetKey={`${payload}|${settings.level}`}
@@ -35,8 +27,8 @@ export default function QRPreview({ payload, typeLabel, settings, canvasRef, onF
           boostLevel={false}
           role="img"
           aria-label={`QR code for ${typeLabel}`}
-          // Scale down to fit narrow screens while keeping the real pixel size for export.
-          style={{ maxWidth: '100%', height: 'auto' }}
+          // Scale down to fit the card while keeping the real pixel size for export.
+          style={{ width: '100%', height: 'auto' }}
         />
       </div>
     </QRErrorBoundary>

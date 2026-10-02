@@ -1,6 +1,6 @@
 .color-row {
   display: flex;
-  gap: var(--space-2);
+  gap: 8px;
 }
 
 .color-row .control {
@@ -10,12 +10,12 @@
 
 .swatch {
   flex: none;
-  width: var(--tap-target);
-  height: var(--tap-target);
+  width: 48px;
+  height: 48px;
   padding: 0;
   border: var(--border);
-  border-radius: var(--radius);
-  background: var(--paper);
+  border-radius: 0;
+  background: var(--white);
   cursor: pointer;
   appearance: none;
 }

@@ -1,62 +1,67 @@
-import { useEffect, useState } from 'react'
-import Header from './components/Header.jsx'
-import Section from './components/Section.jsx'
-import SegmentedControl from './components/SegmentedControl.jsx'
-import ContentFields from './components/ContentFields.jsx'
-import StyleControls from './components/StyleControls.jsx'
-import PresetPicker from './components/PresetPicker.jsx'
-import RecentList from './components/RecentList.jsx'
-import PreviewCard from './components/PreviewCard.jsx'
+import { useEffect, useRef, useState } from 'react'
+import Hero from './components/Hero.jsx'
+import GenerateForm from './components/GenerateForm.jsx'
+import Decor from './components/Decor.jsx'
+import Marquee from './components/Marquee.jsx'
+import Wordmark from './components/Wordmark.jsx'
+import SettingsButton from './components/SettingsButton.jsx'
+import SettingsDrawer from './components/SettingsDrawer.jsx'
+import CreatingOverlay from './components/CreatingOverlay.jsx'
+import ResultModal from './components/ResultModal.jsx'
+import QRPreview from './components/QRPreview.jsx'
 import { EMPTY_FIELDS, QR_TYPES, buildPayload } from './utils/payloads.js'
 import { DEFAULT_SETTINGS } from './utils/settings.js'
 import { applyPreset, findPresetId } from './utils/presets.js'
 import { validateFields } from './utils/validators.js'
-import {
-  RECENT_SAVE_DELAY_MS,
-  addRecent,
-  loadRecent,
-  removeRecent,
-  saveRecent,
-} from './utils/storage.js'
+import { addRecent, loadRecent, removeRecent, saveRecent } from './utils/storage.js'
 import './App.css'
 
-const TYPE_OPTIONS = QR_TYPES.map((item) => ({ value: item.id, label: item.label }))
+const CREATING_MS = 1300
+const TOO_LONG_MESSAGE =
+  'This content is too long for a QR code. Try something shorter or a lower error correction level.'
 
 export default function App() {
   const [type, setType] = useState('url')
-  // One entry per type, so switching tabs keeps what was typed in each.
+  // One entry per type, so switching chips keeps what was typed in each.
   const [fieldsByType, setFieldsByType] = useState(EMPTY_FIELDS)
-  // Single source of truth for size, colors, level and margin. The real size is kept here
-  // even when the preview is scaled down with CSS, because PNG export needs it.
+  // Single source of truth for size, colors, level and margin. PNG export reads the real size from here.
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   // null means the user has edited away from every preset, so the label reads "Custom".
   const [presetId, setPresetId] = useState(() => findPresetId(DEFAULT_SETTINGS))
-  // Errors stay hidden until the user types in a field or leaves it.
-  const [touchedByType, setTouchedByType] = useState({})
   const [recent, setRecent] = useState(() => loadRecent())
-  const [encodeFailed, setEncodeFailed] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [phase, setPhase] = useState('idle')
+  // Errors stay hidden until the first click on Generate with invalid input.
+  const [attempted, setAttempted] = useState(false)
+  const [shaking, setShaking] = useState(false)
+  const [tooLong, setTooLong] = useState(false)
+
+  const inputRef = useRef(null)
+  const generateRef = useRef(null)
+  const settingsButtonRef = useRef(null)
+  // Set while the loader runs, by the hidden QR that tries to encode the payload.
+  const encodeFailedRef = useRef(false)
+  const pendingFocusRef = useRef(null)
 
   const fields = fieldsByType[type]
   const payload = buildPayload(type, fields)
   const typeLabel = QR_TYPES.find((item) => item.id === type).label
-  const touched = touchedByType[type] ?? {}
-  const errors = Object.fromEntries(
-    Object.entries(validateFields(type, fields)).filter(([name]) => touched[name]),
-  )
-
-  function touchField(name) {
-    setTouchedByType((current) => ({
-      ...current,
-      [type]: { ...current[type], [name]: true },
-    }))
-  }
+  const firstError = Object.values(validateFields(type, fields))[0] ?? ''
+  const errorText = tooLong ? TOO_LONG_MESSAGE : attempted ? firstError : ''
+  const overlayOpen = drawerOpen || phase !== 'idle'
 
   function updateField(name, value) {
     setFieldsByType((current) => ({
       ...current,
       [type]: { ...current[type], [name]: value },
     }))
-    touchField(name)
+    setTooLong(false)
+  }
+
+  function changeType(next) {
+    setType(next)
+    setAttempted(false)
+    setTooLong(false)
   }
 
   function updateSetting(name, value) {
@@ -75,6 +80,9 @@ export default function App() {
     setFieldsByType((current) => ({ ...current, [entry.type]: entry.fields }))
     setSettings(entry.settings)
     setPresetId(findPresetId(entry.settings))
+    setAttempted(false)
+    setTooLong(false)
+    closeDrawer()
   }
 
   function deleteEntry(id) {
@@ -88,9 +96,44 @@ export default function App() {
     setRecent((current) => (saveRecent([]) ? [] : current))
   }
 
+  function closeDrawer() {
+    setDrawerOpen(false)
+    pendingFocusRef.current = settingsButtonRef
+  }
+
+  function handleGenerate() {
+    if (phase !== 'idle') return
+    if (!payload) {
+      setAttempted(true)
+      setShaking(true)
+      return
+    }
+    encodeFailedRef.current = false
+    setAttempted(false)
+    setPhase('creating')
+  }
+
+  function handleModalClose(reason) {
+    setPhase('idle')
+    if (reason === 'another') {
+      setFieldsByType((current) => ({ ...current, [type]: EMPTY_FIELDS[type] }))
+      pendingFocusRef.current = inputRef
+    } else {
+      pendingFocusRef.current = generateRef
+    }
+  }
+
+  // After the loader, either show the result or report that the payload cannot be encoded.
   useEffect(() => {
-    if (!payload || encodeFailed) return undefined
+    if (phase !== 'creating') return undefined
     const timer = window.setTimeout(() => {
+      if (encodeFailedRef.current) {
+        setTooLong(true)
+        setShaking(true)
+        pendingFocusRef.current = generateRef
+        setPhase('idle')
+        return
+      }
       const entry = {
         id: crypto.randomUUID(),
         type,
@@ -103,38 +146,82 @@ export default function App() {
         if (next === current) return current
         return saveRecent(next) ? next : current
       })
-    }, RECENT_SAVE_DELAY_MS)
+      setPhase('result')
+    }, CREATING_MS)
     return () => window.clearTimeout(timer)
-  }, [payload, encodeFailed, type, fields, settings])
+  }, [phase, type, fields, settings])
+
+  // Focus can only move once the inert page behind the overlay is interactive again.
+  useEffect(() => {
+    if (overlayOpen || !pendingFocusRef.current) return
+    pendingFocusRef.current.current?.focus({ preventScroll: true })
+    pendingFocusRef.current = null
+  }, [overlayOpen])
 
   return (
-    <div className="page">
-      <Header />
-      {/* DOM order is the mobile order: the preview sits right after the content inputs. */}
-      <main className="layout">
-        <Section id="content" number="01" title="Content">
-          <div className="stack">
-            <SegmentedControl legend="QR code type" options={TYPE_OPTIONS} value={type} onChange={setType} />
-            <ContentFields type={type} fields={fields} errors={errors} onChange={updateField} onBlur={touchField} />
+    <div className="app">
+      <div className="shell" inert={overlayOpen}>
+        <Wordmark />
+        <Decor />
+        <main className="stage">
+          <Hero />
+          <GenerateForm
+            type={type}
+            fieldsByType={fieldsByType}
+            onTypeChange={changeType}
+            onChange={updateField}
+            onSubmit={handleGenerate}
+            errorText={errorText}
+            shaking={shaking}
+            onShakeEnd={() => setShaking(false)}
+            busy={phase === 'creating'}
+            inputRef={inputRef}
+            generateRef={generateRef}
+          />
+        </main>
+        <Marquee />
+        <SettingsButton buttonRef={settingsButtonRef} expanded={drawerOpen} onClick={() => setDrawerOpen(true)} />
+      </div>
+
+      <SettingsDrawer
+        open={drawerOpen}
+        onClose={closeDrawer}
+        settings={settings}
+        onSettingChange={updateSetting}
+        presetId={presetId}
+        onSelectPreset={selectPreset}
+        recent={recent}
+        onRestore={restoreEntry}
+        onDelete={deleteEntry}
+        onClear={clearRecent}
+      />
+
+      {phase === 'creating' && (
+        <>
+          <CreatingOverlay />
+          {/* Never visible: it only reports whether the payload fits in a QR code. */}
+          <div hidden>
+            <QRPreview
+              payload={payload}
+              typeLabel={typeLabel}
+              settings={settings}
+              onFailure={(failed) => {
+                encodeFailedRef.current = failed
+              }}
+            />
           </div>
-        </Section>
-        <PreviewCard
+        </>
+      )}
+
+      {phase === 'result' && (
+        <ResultModal
           payload={payload}
           type={type}
           typeLabel={typeLabel}
           settings={settings}
-          onEncodeFailure={setEncodeFailed}
+          onClose={handleModalClose}
         />
-        <Section id="style" number="02" title="Style">
-          <StyleControls settings={settings} onChange={updateSetting} />
-        </Section>
-        <Section id="presets" number="03" title="Presets">
-          <PresetPicker activeId={presetId} onSelect={selectPreset} />
-        </Section>
-        <Section id="recent" number="04" title="Recent">
-          <RecentList entries={recent} onRestore={restoreEntry} onDelete={deleteEntry} onClear={clearRecent} />
-        </Section>
-      </main>
+      )}
     </div>
   )
 }

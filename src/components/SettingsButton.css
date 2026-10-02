@@ -1,0 +1,38 @@
+.settings-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: var(--border);
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--black);
+}
+
+.settings-button:hover:not(:disabled) svg {
+  transform: rotate(90deg);
+}
+
+.settings-button svg {
+  transition: transform 300ms var(--ease-spring);
+}
+
+@media (max-width: 480px) {
+  .settings-button {
+    top: 14px;
+    right: 14px;
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settings-button svg {
+    transition: none;
+  }
+}

@@ -17,7 +17,7 @@ export default function PresetPicker({ activeId, onSelect }) {
             <button
               key={preset.id}
               type="button"
-              className={selected ? 'preset is-active' : 'preset'}
+              className={selected ? 'preset pressable is-active' : 'preset pressable'}
               aria-pressed={selected}
               onClick={() => onSelect(preset.id)}
             >

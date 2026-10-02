@@ -1,0 +1,127 @@
+.drawer-root {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  visibility: hidden;
+  transition: visibility 0s linear 300ms;
+}
+
+.drawer-root.is-open {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 255, 0.45);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+.is-open .drawer-backdrop {
+  opacity: 1;
+}
+
+.drawer {
+  --label-color: var(--black);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: min(100%, 460px);
+  padding: 24px;
+  overflow-y: auto;
+  border-left: 3px solid var(--black);
+  background: var(--lime);
+  color: var(--black);
+  transform: translateX(100%);
+  transition: transform 300ms ease-out;
+}
+
+.is-open .drawer {
+  transform: translateX(0);
+}
+
+.drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.drawer-title-wrap {
+  position: relative;
+  padding-top: 14px;
+}
+
+.drawer-title {
+  font-size: clamp(2.25rem, 9vw, 3.25rem);
+  line-height: 1;
+}
+
+.sticker {
+  position: absolute;
+  top: -6px;
+  right: -52px;
+  padding: 2px 8px;
+  border: var(--border);
+  background: var(--white);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: rotate(6deg);
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: var(--border);
+  background: var(--white);
+  color: var(--black);
+}
+
+.drawer-section {
+  display: grid;
+  gap: 16px;
+}
+
+.drawer-section h3 {
+  padding-bottom: 6px;
+  border-bottom: 4px solid var(--black);
+  font-size: 1.4rem;
+}
+
+@media (max-width: 600px) {
+  .drawer {
+    width: 100%;
+    padding: 18px;
+    border-left: 0;
+  }
+
+  .sticker {
+    right: -40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer {
+    transform: none;
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+
+  .is-open .drawer {
+    opacity: 1;
+  }
+}

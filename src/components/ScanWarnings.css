@@ -1,17 +1,18 @@
 .scan-warnings {
-  margin-top: var(--space-3);
-  padding: var(--space-2) 12px;
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
   border: var(--border);
-  border-radius: var(--radius);
-  background: var(--warn-bg);
-  color: var(--warn);
-  font-size: var(--text-sm);
-}
-
-.scan-warnings p + p {
-  margin-top: var(--space-2);
+  background: var(--white);
+  color: var(--black);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: left;
 }
 
 .scan-warnings .is-strong {
-  font-weight: 500;
+  padding: 6px 8px;
+  background: var(--black);
+  color: var(--lime);
 }

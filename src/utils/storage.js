@@ -3,7 +3,6 @@ import { WIFI_SECURITY } from './validators.js'
 
 export const RECENT_KEY = 'qr-generator:recent:v1'
 export const RECENT_LIMIT = 10
-export const RECENT_SAVE_DELAY_MS = 1500
 
 const LEVELS = ['L', 'M', 'Q', 'H']
 const TYPES = ['url', 'text', 'email', 'phone', 'wifi']

@@ -1,29 +1,36 @@
+.preset-status {
+  font-weight: 700;
+}
+
 .preset-status strong {
-  font-weight: 500;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .preset-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
-  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: 14px;
+  /* Room for the hard shadows so they are not clipped by the scrolling drawer. */
+  padding-right: 6px;
+  padding-bottom: 6px;
 }
 
 .preset {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-2);
+  gap: 8px;
   min-height: var(--tap-target);
-  padding: var(--space-2);
+  padding: 8px;
   border: var(--border);
-  border-radius: var(--radius);
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--white);
+  color: var(--black);
   font: inherit;
-  font-weight: 500;
+  font-weight: 800;
   text-align: left;
-  cursor: pointer;
-  transition: background-color var(--transition);
+  text-transform: uppercase;
+  --sh: 4px;
 }
 
 .preset svg {
@@ -33,28 +40,9 @@
   border: var(--border);
 }
 
-/* Hover tint is ink at low opacity, same trick as the type selector, so no extra color is introduced. */
-.preset {
-  position: relative;
-  overflow: hidden;
-}
-
-.preset::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--ink);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--transition);
-}
-
-.preset:hover::before {
-  opacity: 0.08;
-}
-
 .preset.is-active {
-  box-shadow: inset 0 -4px 0 var(--accent);
+  background: var(--black);
+  color: var(--lime);
 }
 
 @media (max-width: 480px) {

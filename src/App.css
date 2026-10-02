@@ -1,41 +1,31 @@
-.page {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--space-4) var(--space-3) var(--space-5);
+.app {
+  min-height: 100svh;
 }
 
-.layout {
+/* Clipping keeps the drifting shapes from creating a horizontal scrollbar. */
+.shell {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  overflow-x: clip;
 }
 
-@media (min-width: 900px) {
-  .page {
-    padding-inline: var(--space-4);
-  }
+.stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 5vh, 48px);
+  padding: 96px 16px 140px;
+  text-align: center;
+}
 
-  .layout {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    align-items: start;
-  }
-
-  .layout > .section,
-  .layout > .preview {
-    min-width: 0;
-  }
-
-  .layout > .section {
-    grid-column: 1 / span 7;
-  }
-
-  /* Spans every row so the preview stays beside all the control sections. */
-  .layout > .preview {
-    grid-column: 8 / span 5;
-    grid-row: 1 / span 4;
-    position: sticky;
-    top: var(--space-4);
+@media (max-width: 480px) {
+  .stage {
+    padding: 84px 14px 120px;
   }
 }
